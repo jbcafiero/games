@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<style media="screen">
+
+</style>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <canvas id="bg" width="700" height="400" style="background: black;float: left;"></canvas>
+    <canvas id="canvas" width="700" height="400" style="background: none;float: left;margin-top: -400px;"></canvas>
+    <canvas id="pla2" width="700" height="400" style="background: none;float: left;margin-top: -400px;"></canvas>
+    <canvas id="ball" width="700" height="400" style="background: none;float: left;margin-top: -400px;"></canvas>
+    <canvas id="points1" width="700" height="400" style="background: none;float: left;margin-top: -400px;"></canvas>
+    <canvas id="points2" width="700" height="400" style="background: none;float: left;margin-top: -400px;"></canvas>
+    <br>
+    <button id="start" type="button" onclick="startGame()" name="button">Start Game</button>
+
+    <p id="visible"></p>
+
+
+  </body>
+<script src="https://jeremyckahn.github.io/keydrown/dist/keydrown.min.js"></script>
+<script type="text/javascript">
+
+  var sbutton = document.getElementById('start');
+   var canv = document.getElementById('canvas');
+   var pla2canv = document.getElementById('pla2');
+   var vis = document.getElementById('visible');
+   var bcanv = document.getElementById('ball');
+   var points1 = document.getElementById('points1');
+   var points2 = document.getElementById('points2');
+   var bgcanv = document.getElementById('bg');
+
+   var player1points = 0;
+   var player2points = 0;
+   var point1use = points1.getContext("2d");
+   var point2use = points2.getContext("2d");
+
+   var bg = bgcanv.getContext("2d");
+
+   var play2 = pla2canv.getContext("2d");
+   var play2x = pla2canv.width - 45;
+   var play2hi = 100;
+   var play2y = pla2canv.height/2 - play2hi/2
+   var play2wid = 25;
+   var play2col = "white";
+
+   var inputD = false;
+   var inputU = false;
+
+   var game_started = false;
+
+   var moveX;
+   var moveY;
+
+   var play1 = canv.getContext("2d");
+   var play1x = 20;
+   var play1hi = 100;
+   var play1y = canv.height/2 - play1hi/2
+   var play1wid = 25;
+   var play1col = "white";
+
+   var play1bottom = play1y + play1hi;
+
+   var ball = bcanv.getContext("2d");
+   var ballx = canv.width/2;
+   var bally = canv.height/2;
+   var ballr = 15;
+   var balls = 0;
+   var balle = 2 * Math.PI;
+
+   // Dashed line
+  bg.beginPath();
+  bg.setLineDash([10, 10]);
+  bg.moveTo(bgcanv.width/2, 4);
+  bg.lineTo(bgcanv.width/2, bgcanv.height);
+  bg.strokeStyle = "lightgrey"
+  bg.stroke();
+
+   function drawBall(x, y, r, s, e) {
+
+     bcanv.width = bcanv.width;
+     ball.arc(x, y, r, s, e);
+     ball.fillStyle = "white";
+     ball.fill();
+
+   }
+
+   drawBall(ballx, bally, ballr, balls, balle);
+
+   function drawPlay1Text(playerpoints) {
+
+     points1.width = points1.width;
+     point1use.font = "50px Arial";
+     point1use.strokeStyle = "lightgrey"
+     point1use.strokeText(playerpoints, points1.width/2 - 125, points1.height - 100);
+
+   }
+
+   drawPlay1Text(player1points);
+
+   function drawPlay2Text(playerpoints) {
+
+     points2.width = points2.width;
+     point2use.font = "50px Arial";
+     point2use.strokeStyle = "lightgrey"
+     point2use.strokeText(playerpoints, points2.width/2 + 100, points2.height - 100);
+
+   }
+
+   drawPlay2Text(player2points)
+
+   //player 1 function
+
+   function drawPlayer(x, y, width, height, color) {
+
+     play1.rect(x, y, width, height);
+     play1.fillStyle = color;
+     play1.fill();
+     play1.clearRect(x, y-height-400, width, height+400);
+     play1.clearRect(x, y+height, width, height+400);
+
+   }
+
+
+
+   drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
+
+   //Player 2 function
+
+   function drawPlayer2(x, y, width, height, color) {
+
+     pla2canv.width = pla2canv.width;
+     play2.rect(x, y, width, height);
+     play2.fillStyle = color;
+     play2.fill();
+
+   }
+
+   drawPlayer2(play2x, play2y, play2wid, play2hi, play2col);
+
+   //Move Functions
+
+   function moveDown() {
+     function tempFunc() {
+       console.log("test");
+       if (inputD == true) {
+         if (play1y < canv.height - play1hi) {
+           play1y = play1y + 1.7
+         }
+           play1bottom = play1y + play1hi;
+           drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
+
+       }
+       if (inputU == true) {
+         console.log("U");
+           if (play1y > 0) {
+             play1y = play1y - 1.7
+           }
+           play1bottom = play1y + play1hi;
+           drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
+
+       }
+    }
+      var moveIt = setInterval(tempFunc, 10);
+  }
+
+   function movePlay2() {
+     function move2(){
+       if (bally < play2y + play2hi) {
+         play2y = play2y - 1
+         drawPlayer2(play2x, play2y, play2wid, play2hi, play2col);
+       }
+       else if (bally > play2y + play2hi) {
+         play2y = play2y + 1
+         drawPlayer2(play2x, play2y, play2wid, play2hi, play2col);
+       }
+     }
+
+     movepla2 = setInterval(move2, 5);
+   }
+
+   var randomnegx = Math.random() < 0.5 ? -1 : 1;
+   var randomnegy = Math.random() < 0.5 ? -1 : 1;
+   var randomx = 4 + Math.floor(Math.random() * 2);
+   var randomy = 4 + Math.floor(Math.random() * 2);
+   randomx = randomx * randomnegx
+   randomy = randomy * randomnegy
+
+   function reanitillise() {
+
+     ballx = canv.width/2;
+     bally = canv.height/2;
+     randomnegx = Math.random() < 0.5 ? -1 : 1;
+     randomnegy = Math.random() < 0.5 ? -1 : 1;
+     randomx = 4 + Math.floor(Math.random() * 2);
+     randomy = 4 + Math.floor(Math.random() * 2);
+     randomx = randomx * randomnegx
+     randomy = randomy * randomnegy
+
+     if (player1points >= 11) {
+       vis.innerHTML = "Player 1 is the winner!";
+       game_started = false;
+       sbutton.style.display = "block;"
+     }
+     else if (player2points >= 11) {
+       vis.innerHTML = "Player 2 is the winner!";
+       sbutton.style.display = "block;"
+       game_started = false;
+     }
+
+   }
+
+   function moveBall() {
+     function moveBallXY() {
+       if (bally > bcanv.height - ballr || bally < 0 + ballr) {
+         randomy = randomy * -1;
+       }
+       else if (ballx < 45 + ballr && bally > play1y+5 && bally < play1bottom+15) {
+         randomx = randomx * -1;
+         ballx = ballx + 10;
+       }
+       else if (ballx > bcanv.width - 45 - ballr && bally > play2y+5 && bally < play2y + play2hi+5) {
+         randomx = randomx * -1
+         ballx = ballx - 10;
+       }
+       else if (ballx < ballr) {
+         player2points++;
+         drawPlay2Text(player2points);
+
+         reanitillise();
+
+       }
+       else if (ballx > bcanv.width - ballr) {
+         player1points++;
+         drawPlay1Text(player1points);
+
+         reanitillise();
+
+       }
+         ball.clearRect(0, 0, bcanv.width, bcanv.height);
+         ballx = ballx + randomx;
+         bally = bally + randomy;
+         drawBall(ballx, bally, ballr, balls, balle);
+
+     }
+
+     moveXY = setInterval(moveBallXY, 20);
+
+   }
+
+   function startGame() {
+
+    sbutton.style.display = "none";
+    moveBall();
+    movePlay2()
+    game_started = true;
+
+      moveDown();
+
+
+    if (inputU == true) {
+      moveUp();
+
+      if (play1y < 0) {
+        play1y = 0;
+      }
+      else if (play1y > canv.height - play1hi) {
+        play1y = canv.height - play1hi;
+      }
+
+    }
+
+   }
+
+   //execution of move functions on key press
+
+
+   kd.W.down(function () {
+    inputU = true;
+    console.log("The issdlkfjal sd");
+   });
+
+   kd.W.up(function () {
+    inputU = false;
+   });
+   kd.S.down(function () {
+     inputD = true;
+   });
+
+   kd.S.up(function () {
+    inputD = false;
+
+   });
+
+   kd.run(function () {
+     kd.tick();
+   });
+
+
+
+</script>
+</html>
