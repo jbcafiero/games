@@ -22,6 +22,7 @@
 
 
   </body>
+<script src="https://jeremyckahn.github.io/keydrown/dist/keydrown.min.js"></script>
 <script type="text/javascript">
 
   var sbutton = document.getElementById('start');
@@ -46,6 +47,9 @@
    var play2y = pla2canv.height/2 - play2hi/2
    var play2wid = 25;
    var play2col = "white";
+
+   var inputD = false;
+   var inputU = false;
 
    var game_started = false;
 
@@ -140,20 +144,29 @@
 
    //Move Functions
 
-   function moveUp() {
-
-     play1y = play1y + 5
-     play1bottom = play1y + play1hi;
-     drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
-
-   }
    function moveDown() {
+     function tempFunc() {
+       console.log("test");
+       if (inputD == true) {
+         if (play1y < canv.height - play1hi) {
+           play1y = play1y + 1.7
+         }
+           play1bottom = play1y + play1hi;
+           drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
 
-     play1y = play1y - 5
-     play1bottom = play1y + play1hi;
-     drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
+       }
+       if (inputU == true) {
+         console.log("U");
+           if (play1y > 0) {
+             play1y = play1y - 1.7
+           }
+           play1bottom = play1y + play1hi;
+           drawPlayer(play1x, play1y, play1wid, play1hi, play1col);
 
-   }
+       }
+    }
+      var moveIt = setInterval(tempFunc, 10);
+  }
 
    function movePlay2() {
      function move2(){
@@ -246,38 +259,46 @@
     movePlay2()
     game_started = true;
 
+      moveDown();
+
+
+    if (inputU == true) {
+      moveUp();
+
+      if (play1y < 0) {
+        play1y = 0;
+      }
+      else if (play1y > canv.height - play1hi) {
+        play1y = canv.height - play1hi;
+      }
+
+    }
+
    }
 
    //execution of move functions on key press
 
 
-  window.addEventListener('keydown', function(event) {
-   if(event.keyCode == 38  || event.keyCode == 87) {
-     play1y = play1y - 4;
-     moveDown();
+   kd.W.down(function () {
+    inputU = true;
+    console.log("The issdlkfjal sd");
+   });
 
-     if (play1y < 0) {
-       play1y = 0;
+   kd.W.up(function () {
+    inputU = false;
+   });
+   kd.S.down(function () {
+     inputD = true;
+   });
 
-     }
-     else if (play1y > canv.height) {
-       play1y = canv.height;
-     }
+   kd.S.up(function () {
+    inputD = false;
 
-   }
-   else if(event.keyCode == 40 || event.keyCode == 83) {
-     moveUp();
-     play1y = play1y + 4;
+   });
 
-     if (play1y < 0) {
-       play1y = 0;
-     }
-     else if (play1y > canv.height - play1hi) {
-       play1y = canv.height - play1hi;
-     }
-
-   }
-});
+   kd.run(function () {
+     kd.tick();
+   });
 
 
 
