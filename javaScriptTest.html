@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <style media="screen">
+
+      .contaier {
+
+        width: auto;
+        text-align: center;
+
+      }
+
+      h1 {
+
+        text-align: center;
+
+      }
+
+      #test {
+
+      width: 360px;
+      height: 360px;
+      background-image: url(tttgrid.png);
+      background-size: cover;
+      z-index: -1;
+      margin-left: auto;
+      margin-right: auto;
+
+      }
+
+      .col1 {
+        float: left;
+      }
+      .col2 {
+        float: left
+      }
+      .col3 {
+        float: left;
+      }
+
+      #b1 {
+
+        width: 110px;
+        height: 110px;
+        margin: 0px 15px 15px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+
+      }
+
+      #b2 {
+
+        width: 110px;
+        height: 110px;
+        margin: 15px 15px 15px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b3 {
+
+        width: 110px;
+        height: 110px;
+        margin: 15px 15px 0px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b4 {
+
+        width: 110px;
+        height: 110px;
+        margin: 0px 15px 15px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b5 {
+
+        width: 110px;
+        height: 110px;
+        margin: 15px 15px 15px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b6 {
+
+        width: 110px;
+        height: 110px;
+        margin: 15px 15px 0px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b7 {
+
+        width: 110px;
+        height: 110px;
+        margin: 0px 0px 15px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b8 {
+
+        width: 110px;
+        height: 110px;
+        margin: 15px 0px 15px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      #b9 {
+
+        width: 110px;
+        height: 110px;
+        margin: 15px 0px 0px 0px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+      }
+
+      .buttons {
+
+
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+
+      }
+
+      #start {
+
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+
+      }
+
+      #info {
+
+        text-align: center;
+
+      }
+
+    </style>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Tic Tac Toe</h1>
+      <div id="test">
+        <div class="col1">
+          <div id='b1' onclick="changeTurn();b1Click()">
+
+          </div>
+          <div id="b2" onclick="changeTurn();b2Click()">
+
+          </div>
+          <div id="b3" onclick="changeTurn();b3Click()">
+
+          </div>
+        </div>
+        <div class="col2">
+          <div id="b4" onclick="changeTurn();b4Click()">
+
+          </div>
+          <div id="b5" onclick="changeTurn();b5Click()">
+
+          </div>
+          <div id="b6" onclick="changeTurn();b6Click()">
+          </div>
+        </div>
+        <div class="col3">
+          <div id="b7" onclick="changeTurn();b7Click()">
+
+          </div>
+          <div id="b8" onclick="changeTurn();b8Click()">
+
+          </div>
+          <div id="b9" onclick="changeTurn();b9Click()">
+
+          </div>
+        </div>
+
+      </div>
+      <div class="buttons">
+        <button id="start" onclick="StartGame()" name="StartRestart">Start Game</button>
+      </div>
+      <h2 id="info"></h2>
+    </div>
+
+    <script type="text/javascript">
+      // if turn == true then it is X's turn else if turn == false the it is O's turn
+      var itsADraw;
+      var turn = true;
+      var game_started = false;
+      var sbutton = document.getElementById('start');
+      var info = document.getElementById('info');
+
+      function StartGame() {
+
+        if (game_started == false) {
+
+          turn = Math.random() >= 0.5;
+          sbutton.style.display = "none";
+          game_started = true;
+
+          itsADraw = 0;
+
+          if (turn == true) {
+            info.innerHTML = "X has the first turn";
+          }
+          else if (turn == false) {
+            info.innerHTML = "O has the first turn";
+          }
+
+        }
+        else {
+          console.log("This shows that the conditional variable is working");
+          game_started = false;
+          b1c = 2;
+          b1canChange = true;
+          b2c = 2;
+          b2canChange = true;
+          b3c = 2;
+          b3canChange = true;
+          b4c = 2;
+          b4canChange = true;
+          b5c = 2;
+          b5canChange = true;
+          b6c = 2;
+          b6canChange = true;
+          b7c = 2;
+          b7canChange = true;
+          b8c = 2;
+          b8canChange = true;
+          b9c = 2;
+          b9canChange = true;
+
+          itsADraw = 0;
+
+          b1.style.backgroundImage = "url('')"
+          b2.style.backgroundImage = "url('')"
+          b3.style.backgroundImage = "url('')"
+          b4.style.backgroundImage = "url('')"
+          b5.style.backgroundImage = "url('')"
+          b6.style.backgroundImage = "url('')"
+          b7.style.backgroundImage = "url('')"
+          b8.style.backgroundImage = "url('')"
+          b9.style.backgroundImage = "url('')"
+
+          info.innerHTML = "";
+          sbutton.innerHTML = "Start Game";
+
+        }
+
+      }
+
+      function changeTurn() {
+
+
+
+      }
+
+      function lockDown() {
+
+        b1canChange = false;
+        b2canChange = false;
+        b3canChange = false;
+        b4canChange = false;
+        b5canChange = false;
+        b6canChange = false;
+        b7canChange = false;
+        b8canChange = false;
+        b9canChange = false;
+
+      }
+
+      function whoWon() {
+
+        if (b1c == 1 && b2c == 1 && b3c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b1c == 0 && b2c == 0 && b3c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+
+        if (b4c == 1 && b5c == 1 && b6c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b4c == 0 && b5c == 0 && b6c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+        if (b7c == 1 && b8c == 1 && b9c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b7c == 0 && b8c == 0 && b9c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+        if (b1c == 1 && b4c == 1 && b7c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b1c == 0 && b4c == 0 && b7c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+        if (b2c == 1 && b5c == 1 && b8c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b2c == 0 && b5c == 0 && b8c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+        if (b2c == 3 && b5c == 6 && b8c == 9) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b3c == 0 && b6c == 0 && b9c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+        if (b1c == 1 && b5c == 1 && b9c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b1c == 0 && b5c == 0 && b9c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+        if (b3c == 1 && b5c == 1 && b7c == 1) {
+        sbutton.style.display = "block";
+        sbutton.style.textAlign = "center";
+        sbutton.innerHTML = "Play Again?";
+        info.innerHTML = "X is the Winner!";
+        lockDown()
+        }
+        else if (b3c == 0 && b5c == 0 && b7c == 0) {
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "O is the Winner!";
+          lockDown()
+        }
+
+        if (itsADraw >= 9) {
+
+          sbutton.style.display = "block";
+          sbutton.style.textAlign = "center";
+          sbutton.innerHTML = "Play Again?";
+          info.innerHTML = "Its a draw";
+
+        }
+
+      }
+
+      // document.getElementById('start').onClick.StartGame();
+
+
+      // grid initillisation
+      var b1 = document.getElementById('b1');
+      var b2 = document.getElementById('b2');
+      var b3 = document.getElementById('b3');
+      var b4 = document.getElementById('b4');
+      var b5 = document.getElementById('b5');
+      var b6 = document.getElementById('b6');
+      var b7 = document.getElementById('b7');
+      var b8 = document.getElementById('b8');
+      var b9 = document.getElementById('b9');
+
+      // grid ids
+      var b1c = 2;
+      var b1canChange = true;
+      var b2c = 2;
+      var b2canChange = true;
+      var b3c = 2;
+      var b3canChange = true;
+      var b4c = 2;
+      var b4canChange = true;
+      var b5c = 2;
+      var b5canChange = true;
+      var b6c = 2;
+      var b6canChange = true;
+      var b7c = 2;
+      var b7canChange = true;
+      var b8c = 2;
+      var b8canChange = true;
+      var b9c = 2;
+      var b9canChange = true;
+
+      function b1Click() {
+
+        if (game_started == true) {
+          if (b1canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b1.style.backgroundImage = "url('X.png')"
+              b1c = 1;
+              b1canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              b1.style.backgroundImage = "url('O.jpg')"
+              b1c = 0;
+              b1canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b2Click() {
+
+        if (game_started == true) {
+          if (b2canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b2.style.backgroundImage = "url('X.png')"
+              b2c = 1;
+              b2canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              b2.style.backgroundImage = "url('O.jpg')"
+              b2c = 0;
+              b2canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b3Click() {
+
+        if (game_started == true) {
+          if (b3canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b3.style.backgroundImage = "url('X.png')"
+              b3c = 1;
+              b3canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b3.style.backgroundImage = "url('O.jpg')"
+              b3c = 0;
+              b3canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b4Click() {
+
+        if (game_started == true) {
+          if (b4canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b4.style.backgroundImage = "url('X.png')"
+              b4c = 1;
+              b4canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b4.style.backgroundImage = "url('O.jpg')"
+              b4c = 0;
+              b4canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b5Click() {
+
+        if (game_started == true) {
+          if (b5canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b5.style.backgroundImage = "url('X.png')"
+              b5c = 1;
+              b5canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b5.style.backgroundImage = "url('O.jpg')"
+              b5c = 0;
+              b5canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b6Click() {
+
+        if (game_started == true) {
+          if (b6canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b6.style.backgroundImage = "url('X.png')"
+              b6c = 1;
+              b6canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b6.style.backgroundImage = "url('O.jpg')"
+              b6c = 0;
+              b6canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b7Click() {
+
+        if (game_started == true) {
+          if (b7canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b7.style.backgroundImage = "url('X.png')"
+              b7c = 1;
+              b7canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b7.style.backgroundImage = "url('O.jpg')"
+              b7c = 0;
+              b7canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b8Click() {
+
+        if (game_started == true) {
+          if (b8canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b8.style.backgroundImage = "url('X.png')"
+              b8c = 1;
+              b8canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b8.style.backgroundImage = "url('O.jpg')"
+              b8c = 0;
+              b8canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+      function b9Click() {
+
+        if (game_started == true) {
+          if (b9canChange == true) {
+            itsADraw++
+            if (turn == true) {
+              turn = false;
+              info.innerHTML = "It is O's turn"
+              b9.style.backgroundImage = "url('X.png')"
+              b9c = 1;
+              b9canChange = false;
+            }
+            else if (turn == false) {
+              turn = true;
+              info.innerHTML = "It is X's turn"
+              b9.style.backgroundImage = "url('O.jpg')"
+              b9c = 0;
+              b9canChange = false;
+            }
+          }
+        }
+        whoWon();
+      }
+
+      // win combos
+
+    </script>
+  </body>
+</html>

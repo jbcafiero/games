@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <canvas id="canvas" width="1000" height="500" style="background: black;"></canvas>
+    <canvas id="ground" width="1000" height="500" style="margin-top: -500px; background: none;"></canvas>
+    <canvas id="ball" width="1000" height="500" style='margin-top: -500px;padding: 0;'></canvas>
+    <canvas id="fire" width="1000" height="500" style='margin-top: -500px;padding: 0;'></canvas>
+    <canvas id="test" width="1000" height="500" style="margin-top: -500px; background: none;"></canvas>
+    <button type="button" name="button" onclick="runFunc()">Start Test</button>
+  <script src="https://jeremyckahn.github.io/keydrown/dist/keydrown.min.js"></script>
+  </body>
+  <script type="text/javascript">
+
+    var canv = document.getElementById("canvas");
+    var ctx = canv.getContext("2d");
+    var gcanv = document.getElementById("ground");
+    var ground = canv.getContext("2d");
+    var tcanv = document.getElementById("test");
+    var tester = canv.getContext("2d");
+    var bcanv = document.getElementById('ball');
+    var fcanv = document.getElementById('fire')
+    var fire = fcanv.getContext('2d')
+    ground.strokeStyle = "white"
+    var i;
+
+    function createLineBlock(starty, endy) {
+
+      if (i==0) {
+        ground.beginPath();
+      }
+
+        ground.moveTo(blockSize * (i-1), starty);
+        ground.lineTo(blockSize * (i), endy);
+
+      ground.stroke();
+
+    }
+
+    var test = []
+
+    var blockAmount = 100;
+    var blockSize = canv.width/blockAmount;
+    var variation = 7;
+    var hillVariation = 35;
+    var offset = 150;
+    var lineBase = canv.height/2 + offset;
+
+    var plataeuSize = 10;
+    var plataeu = Math.floor(Math.random() * ((blockAmount - plataeuSize) - plataeuSize)) + plataeuSize;
+
+
+    var hillSize = Math.floor(Math.random() * (hillVariation - (hillVariation/2))) + (hillVariation/2) ;
+    var subtract = hillSize;
+    var add = hillSize;
+
+    while (hillSize%8 >= 1) {
+      subtract--
+      add++
+      if (add%8 <= 1) {
+        hillSize = add;
+      }
+      else if (subtract%8 <= 1 && hillSize > 1) {
+        hillSize = subtract;
+      }
+      console.log(hillSize);
+    }
+    var hill = Math.floor(Math.random() * ((blockAmount - hillSize) - hillSize)) + hillSize;
+    var randomAdder
+//////////////// For START For START For START For START For START For START For START For START For START
+    for (x=0;x<blockAmount + 1;x++) {
+
+      ////// Initial possible variables for generation
+      var basicRandom = Math.floor(Math.random() * variation)
+      var hillBegin = test[x-1] + Math.floor(Math.random() * ((hillVariation*0.7) - (hillVariation*0.2))) + (hillVariation*0.2);
+      var hillHeadLeft = test[x-1] + Math.floor(Math.random() * ((hillVariation*0.12) - (hillVariation*0.1))) + (hillVariation*0.1);
+      var hillHeadRight = test[x-1] - (Math.floor(Math.random() * ((hillVariation*0.12) - (hillVariation*0.1))) + (hillVariation*0.1));
+      var hillDescent = test[x-1] - (Math.floor(Math.random() * ((hillVariation*0.7) - (hillVariation*0.2))) + (hillVariation*0.2));
+      //////
+
+      if (x >= plataeu && x < plataeu + plataeuSize) {
+        test[x] = test[x-1];
+      }
+//////////////////////////////////////////////////////////////////////////////
+          var detail = Math.trunc(hillSize/8)
+          if (x >= hill && x < hill + (hillSize/4)) {
+            test[x] = hillBegin
+            console.log(hillSize + "  1");
+          }
+          else if (x >= (hill + (hillSize/4)) && x < hill + (hillSize/2)) {
+            test[x] = hillHeadLeft
+            console.log(hillSize + "  2");
+          }
+          else if (x >= (hill + (hillSize/2)) && x < hill + (hillSize*0.75)) {
+            test[x] = hillHeadRight
+            console.log(hillSize + "  3");
+          }
+          else if (x >= (hill + (hillSize*0.75)) && x < hill + (hillSize)) {
+            test[x] = hillDescent
+            console.log(hillSize + "  4");
+          }
+//////////////////////////////////////////////////////////
+      else {
+        test[x] = basicRandom
+      }
+    }
+    ///For END For END For END For END For END For END For END For END For END
+
+    for(i=0; i<=blockAmount;++i) {
+
+
+      ground.moveTo(0, lineBase);
+      createLineBlock(lineBase - test[i-1], lineBase - test[i])
+
+
+      // console.log(test[i])
+      // console.log(i)
+
+    }
+
+
+
+// function drawCircle(x, y) {
+//
+//   tcanv.width = tcanv.width;
+//   tester.beginPath();
+//   tester.arc(x, y, 2, 0, 2 * Math.PI);
+//   tester.fillStyle = "white"
+//   tester.fill();
+//
+// }
+
+
+var ballx = 310;
+var ballRot = 0;
+var ballVelX = 0;
+var xMult;
+var yMult;
+
+var slider= 0;
+var slidery;
+var zoneCount = 0;
+var currentSlope;
+var yIntercept;
+var difference;
+var addStep;
+var finalAddStep;
+
+slider = ballx;
+
+function drawTest() {
+
+  if (i == 0) {
+    slidery = lineBase - test[0];
+    difference = test[0] - test[zoneCount + 1]
+  }
+
+  zoneCount = Math.trunc(slider/blockSize);
+
+  difference = test[zoneCount] - test[zoneCount + 1]
+  addStep = Math.ceil(((Math.trunc(slider/blockSize)) - (slider/blockSize))*100)/100;
+  finalAddStep = -(difference * addStep)
+  slidery = lineBase - test[zoneCount] + finalAddStep;
+
+  finalAddStep = 0;
+
+}
+
+// // Test area
+//
+// window.addEventListener('keydown', function(event) {
+//  if(event.keyCode == 38  || event.keyCode == 87) {
+//    slider = slider + 1;
+//       drawTest()
+//
+//
+//  }
+//  else if(event.keyCode == 40 || event.keyCode == 83) {
+//    slider = slider - 0.2;
+//    drawTest()
+//  }
+// });
+//
+var ball = bcanv.getContext("2d");
+var bally = 10;
+var ballVel = 0;
+var input = false;
+
+
+function drawCircle(x, y, rot) {
+
+  bcanv.width = bcanv.width;
+  ball.translate(x, y);
+  ball.rotate(ballRot * Math.PI / 180)
+  ball.rect(-15, -20, 30, 40);
+  ball.fillStyle = "white";
+  ball.fill();
+
+}
+
+function drawFire(x, y) {
+  fire.startPath();
+  ball.translate(x, y);
+  fire.arc(x, y, 2, 0, 2 * Math.PI);
+  fire.rotate(ballRot * Math.PI / 180)
+  fire.fillStyle = "white";
+  fire.fill();
+}
+
+function moveFire() {
+  var spawnx = slider;
+  var spawny = bally;
+  var moveItX = (Math.random() * 0.2 - 0.1) + 0.1;
+  var moveItX = (Math.random() * 1 - 0.1) + 0.1;
+  function moveF() {
+    // spawnx = spawnx + 1;
+    // spawny = spawny + 1;
+    drawFire(spawnx, spawny)
+  }
+  var fireMove = setInterval(moveF, 100)
+}
+
+
+drawCircle(slider, bally);
+
+function ballGravity() {
+  function ballMult() {
+
+    drawTest(); // Draws procedural ground
+
+
+      ballVel = ballVel + 0.001;
+    if (input == true) {
+      ballVel = ballVel - (0.003*yMult);
+      console.log("YMULT" + yMult);
+      console.log("XMULT" + xMult);
+      ballVelX = ballVelX - (0.003*xMult);
+    }
+    if (bally > slidery - 60) {
+
+      ballVel = -ballVel * 0.25
+          bally = bally - 0.1;
+
+    }
+    if (inputRotLeft == true) {
+      if (ballRot > -90) {
+        ballRot--
+      }
+    }
+    if (inputRotRight == true) {
+      if (ballRot < 90) {
+        ballRot++
+      }
+    }
+    if (ballRot > 0) {
+      if (ballRot < 45) {
+        yMult = 1 - ballRot/90
+        xMult = -(ballRot/90)
+      }
+      // more extreme rotation
+      else if (ballRot > 45) {
+        yMult = 1 - ballRot/90
+        xMult = -(ballRot/90)
+      }
+    }
+    else if (ballRot < 0) {
+      if (ballRot >= -45) {
+        yMult = 1 + ballRot/90
+        xMult = (1 + ballRot/90)
+      }
+      //more extreme rotation
+      else if (ballRot < -45) {
+        yMult = 1 + ballRot/90
+        xMult = -(ballRot/90)
+      }
+    }
+    else {
+      yMult = 1
+      xMult = 0
+    }
+    // Air resistence
+    if (ballVelX > 0) {
+      ballVelX = ballVelX - 0.0003
+    }
+    else if (ballVelX < 0) {
+      ballVelX = ballVelX + 0.0003
+    }
+
+      drawCircle(slider, bally)
+      bally = bally + ballVel;
+      slider = slider + ballVelX;
+  }
+
+    var ballExecute = setInterval(ballMult, 1000/100)
+}
+
+function runFunc() {
+  ballGravity()
+  moveFire();
+
+}
+
+function runRightImpulse() {
+
+}
+
+// function ballFly() {
+//   function ballMult() {
+//     if (input == true) {
+//       drawCircle(100, bally)
+//       ballVel = ballVel - 0.05;
+//       bally = bally + ballVel;
+//     }
+//   }
+//   var ballExecute = setInterval(ballMult, 1000/100)
+// }
+
+var inputRotRight
+var inputRotLeft
+
+kd.W.down(function () {
+input = true;
+});
+
+kd.W.up(function () {
+ input = false;
+});
+kd.A.down(function () {
+  inputRotLeft = true;
+});
+
+kd.A.up(function () {
+ inputRotLeft = false;
+});
+kd.D.down(function () {
+  inputRotRight = true;
+});
+
+kd.D.up(function () {
+  inputRotRight = false;
+});
+
+
+// This update loop is the heartbeat of Keydrown
+kd.run(function () {
+  kd.tick();
+});
+
+
+
+
+  </script>
+</html>
