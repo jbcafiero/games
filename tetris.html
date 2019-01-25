@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="">
+      <canvas id="border" width="540" height="994" style="background: grey;float: left;"></canvas>
+      <canvas id="grid" width="450" height="900" style="background: lightgrey;float: left;margin-top: 46.5px; margin-left: -495px;"></canvas>
+      <canvas id="border" width="320" height="320" style="background: grey;float: left;margin-left: 10px;"></canvas>
+      <canvas id="grid" width="225" height="225" style="background: lightgrey;float: left;margin-top: 45px; margin-left: -275px;"></canvas>
+      <div class="" style="float: left; width: 320px; margin-top: 50px; text-align: center;">
+            <button type="button" onclick="play()" name="button" style="padding: 20px 30px; background: green; color: white; font-size: 20px;">Start Game</button>
+      </div>
+    </div>
+
+  </body>
+  <script src="https://jeremyckahn.github.io/keydrown/dist/keydrown.min.js"></script>
+  <script type="text/javascript">
+
+    var bordCanv = document.getElementById("border");
+    var border = bordCanv.getContext("2d");
+    var borderUnity = bordCanv.height/22;
+    var borderUnitx = bordCanv.width/12;
+
+    var gridCanv = document.getElementById("grid");
+    var grid = gridCanv.getContext("2d");
+    var graphUnity = gridCanv.height/20;
+    var graphUnitx = gridCanv.width/10;
+
+    for (var i = 1; i < 22; i++) {
+      border.beginPath();
+      border.moveTo(0, borderUnity * i);
+      border.lineTo(bordCanv.width, borderUnity * i);
+      border.strokeStyle = "black"
+      border.stroke();
+    }
+    for (var i = 1; i < 12; i++) {
+      border.beginPath();
+      border.moveTo(borderUnitx * i, 0);
+      border.lineTo(borderUnitx * i, bordCanv.height);
+      border.strokeStyle = "black"
+      border.stroke();
+    }
+
+    function blockSpawn(pick, col) {
+
+      //square: 2 blocks wide
+      if (pick == 1) {
+        var pos = Math.floor(Math.random() * 9);
+        gridArr[0][pos+0] = col;
+        gridArr[0][pos+1] = col;
+        gridArr[1][pos+0] = col;
+        gridArr[1][pos+1] = col;
+      }
+      //zigzag right: 3 blocks wide
+      else if (pick == 2) {
+        var pos = Math.floor(Math.random() * 8);
+        gridArr[0][pos+0] = col;
+        gridArr[0][pos+1] = col;
+        gridArr[1][pos+1] = col;
+        gridArr[1][pos+2] = col;
+      }
+      //zigzag left: 3 blocks wide
+      else if (pick == 3) {
+        var pos = Math.floor(Math.random() * 8);
+        gridArr[0][pos+1] = col;
+        gridArr[0][pos+2] = col;
+        gridArr[1][pos+0] = col;
+        gridArr[1][pos+1] = col;
+      }
+      //L left: 3 blocks wide
+      else if (pick == 4) {
+        var pos = Math.floor(Math.random() * 8);
+        gridArr[0][pos+2] = col;
+        gridArr[1][pos+0] = col;
+        gridArr[1][pos+1] = col;
+        gridArr[1][pos+2] = col;
+      }
+      //L right: 3 blocks wide
+      else if (pick == 5) {
+        var pos = Math.floor(Math.random() * 8);
+        gridArr[0][pos+0] = col;
+        gridArr[1][pos+0] = col;
+        gridArr[1][pos+1] = col;
+        gridArr[1][pos+2] = col;
+      }
+      // straight line: 4 blocks
+      else if (pick == 6) {
+        var pos = Math.floor(Math.random() * 7);
+        gridArr[0][pos+0] = col;
+        gridArr[0][pos+0] = col;
+        gridArr[0][pos+1] = col;
+        gridArr[0][pos+2] = col;
+      }
+      // T: 3 blocks
+      else if (pick == 7) {
+        var pos = Math.floor(Math.random() * 8);
+        gridArr[0][pos+1] = col;
+        gridArr[1][pos+0] = col;
+        gridArr[1][pos+1] = col;
+        gridArr[1][pos+2] = col;
+      }
+
+
+    }
+
+    //object
+    ////
+
+    var gridArr = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    function drawBlocks(column, row, color) {
+      grid.beginPath();
+      grid.moveTo(column * graphUnitx, row * graphUnity);
+      grid.lineTo((column * graphUnitx) + graphUnitx, row * graphUnity);
+      grid.lineTo((column * graphUnitx) + graphUnitx, (row * graphUnity) + graphUnity);
+      grid.lineTo((column * graphUnitx), (row * graphUnity) + graphUnity);
+      grid.lineTo(column * graphUnitx, row * graphUnity);
+      grid.strokeStyle = "black"
+      grid.fillStyle = color
+      grid.stroke();
+      grid.fill();
+    }
+
+    function refreshGrid() {
+
+      var canSpawn = true;
+
+      function refresh() {
+
+        if (canSpawn == true) {
+
+          var blockSelect = Math.floor(Math.random() * 6) + 1;
+          var colorSelect = Math.floor(Math.random() * 3) + 1;
+          blockSpawn(blockSelect, colorSelect)
+          // canSpawn = false;
+        }
+
+        gridCanv.width = gridCanv.width;
+        var column = 0;
+        var row = 19;
+        for (var z = 0; z < (gridArr.length * 10) - 9; z++) {
+
+          if (column >= 9) {
+            row = row - 1;
+            column = 0;
+          }
+          else {
+            column++;
+          }
+
+          if (gridArr[row][column] == 1) {
+            drawBlocks(column, row, "red");
+          }
+          else if (gridArr[row][column] == 2) {
+            drawBlocks(column, row, "blue");
+          }
+          else if (gridArr[row][column] == 3) {
+            drawBlocks(column, row, "green");
+          }
+          else if (gridArr[row][column] == 4) {
+            drawBlocks(column, row, "yellow");
+          }
+
+          if (gridArr[row][column] > 0 && gridArr[row][column] <= 4 && row < 19 && gridArr[row + 1][column] == 0 ) {
+
+            gridArr[row + 1][column] = gridArr[row][column];
+            gridArr[row][column] = 0
+          }
+
+        }
+
+      }
+
+      var ref = setInterval(refresh, 500)
+
+    }
+
+    var blockID = 0;
+
+    function createBlock() {
+
+      var currentBlock = "block" + blockID.toString();
+      var blockCanv = document.createElement("block" + blockID.toString());
+      var block = blockCanv.getContext("2d");
+
+      blockID++
+    }
+
+    function play() {
+
+      refreshGrid();
+
+    }
+
+
+  </script>
+
+</html>
