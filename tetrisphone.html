@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+
+      #controls {
+        background: #4286f4;
+        border: none;
+        width: 100px;
+        height: 100px;
+        font: Helvetica;
+        color: white;
+        font-size: 25px;
+
+      }
+
+      .spacer {
+        width: 100px;
+        height: 100px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container" style="background: #424242; height: 1100px; width: 870px; padding: 15px;">
+      <div class="stat">
+        <canvas id="stats" width="870" height="100" style="background: grey; margin-bottom: 5px;"></canvas>
+      </div>
+      <div class="">
+        <canvas id="border" width="540" height="994" style="background: grey;float: left;"></canvas>
+        <canvas id="grid" width="450" height="900" style="background: lightgrey;float: left;margin-top: 46.5px; margin-left: -495px;"></canvas>
+        <canvas id="border2" width="320" height="320" style="background: grey;float: left;margin-left: 10px;"></canvas>
+        <canvas id="grid2" width="225" height="225" style="background: lightgrey;float: left;margin-top: 46.5px; margin-left: -273px;"></canvas>
+      </div>
+      <div class="" style="float: left; width: 320px; margin-top: 50px; text-align: center;">
+            <button id="gameController" type="button" onclick="play()" name="button" style="padding: 20px 30px; background: #38b53c; color: white; font-size: 20px; border: none;">Start Game</button>
+      </div>
+      <div class="" style="margin-left: 5px;margin-top: 500px;text-align: center;" >
+        <table>
+          <tr>
+            <td><div class="spacer"></div></td>
+            <td><button id="controls" type="button" name="buttonRotRight" onmousedown="rotRightOn()" onmouseup="rotRightOff()" >Rotate ></button></td>
+            <td><div class="spacer"></div></td>
+          </tr>
+          <tr>
+            <td><button id="controls" type="button" name="buttonLeft" onmousedown="leftOn()" onmouseup="leftOff()">Left</button></td>
+            <td><button id="controls" type="button" name="buttonSpeed" onmousedown="speedOn()" onmouseup="speedOff()">Speed</button></td>
+            <td><button id="controls" type="button" name="buttonRight" onmousedown="rightOn()" onmouseup="rightOff()">Right</button></td>
+          </tr>
+          <tr>
+            <td><div class="spacer"></div></td>
+            <td><button id="controls" type="button" name="buttonRotLeft" onmousedown="rotLeftOn()" onmouseup="rotLeftOff()">Rotate <</button></td>
+            <td><div class="spacer"></div></td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+  </body>
+  <script src="https://jeremyckahn.github.io/keydrown/dist/keydrown.min.js"></script>
+  <script type="text/javascript">
+
+    var statCanv = document.getElementById("stats")
+    var stats = statCanv.getContext("2d")
+    var score = 0;
+
+    function writeScore(scoref) {
+      statCanv.width = statCanv.width;
+      stats.font = "30px Arial";
+      stats.fillStyle = "white";
+      stats.fillText("SCORE: " + scoref, (statCanv.width/2) - 70, (statCanv.height/2) + 10)
+
+    }
+
+
+
+    writeScore(score);
+
+    var bordCanv = document.getElementById("border");
+    var border = bordCanv.getContext("2d");
+    var borderUnity = bordCanv.height/22;
+    var borderUnitx = bordCanv.width/12;
+
+    var gridCanv = document.getElementById("grid");
+    var grid = gridCanv.getContext("2d");
+    var graphUnity = gridCanv.height/20;
+    var graphUnitx = gridCanv.width/10;
+
+    var startButton = document.getElementById("gameController")
+
+    for (var i = 1; i < 22; i++) {
+      border.beginPath();
+      border.moveTo(0, borderUnity * i);
+      border.lineTo(bordCanv.width, borderUnity * i);
+      border.strokeStyle = "black"
+      border.stroke();
+    }
+    for (var i = 1; i < 12; i++) {
+      border.beginPath();
+      border.moveTo(borderUnitx * i, 0);
+      border.lineTo(borderUnitx * i, bordCanv.height);
+      border.strokeStyle = "black"
+      border.stroke();
+    }
+
+    var bordCanv2 = document.getElementById("border2");
+    var border2 = bordCanv2.getContext("2d");
+    var borderUnity2 = bordCanv2.height/7;
+    var borderUnitx2 = bordCanv2.width/7;
+
+    var graphCanv2 = document.getElementById("grid2");
+    var graph2 = graphCanv2.getContext("2d");
+    var graphUnitx2 = graphCanv2.width / 5;
+    var graphUnity2 = graphCanv2.height / 5;
+
+    for (var i = 1; i < 7; i++) {
+      border2.beginPath();
+      border2.moveTo(0, borderUnity2 * i);
+      border2.lineTo(bordCanv2.width, borderUnity2 * i);
+      border2.strokeStyle = "black"
+      border2.stroke();
+    }
+
+    for (var i = 1; i < 7; i++) {
+      border2.beginPath();
+      border2.moveTo(borderUnitx2 * i, 0);
+      border2.lineTo(borderUnitx2 * i, bordCanv2.height);
+      border2.strokeStyle = "black"
+      border2.stroke();
+    }
+
+    function writeGameOver(over, scoref) {
+      grid.font = "bold 40px Helvetica";
+      grid.fillStyle = "#e01616";
+      grid.fillText(over, (gridCanv.width/2) - 120, gridCanv.height/2 - 20);
+      grid.font = "30px Helvetica";
+      grid.fillStyle = "#1a892c";
+      grid.fillText("Your Score Was: " + scoref, (gridCanv.width/2) - 150, gridCanv.height/2 + 55);
+    }
+
+    //object
+    ////
+
+    var gridArr = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    var gridPreview = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0]
+  ];
+
+    function drawBlocks(column, row, color) {
+      grid.beginPath();
+      grid.moveTo(column * graphUnitx, row * graphUnity);
+      grid.lineTo((column * graphUnitx) + graphUnitx, row * graphUnity);
+      grid.lineTo((column * graphUnitx) + graphUnitx, (row * graphUnity) + graphUnity);
+      grid.lineTo((column * graphUnitx), (row * graphUnity) + graphUnity);
+      grid.lineTo(column * graphUnitx, row * graphUnity);
+      grid.strokeStyle = "black"
+      grid.fillStyle = color
+      grid.stroke();
+      grid.fill();
+    }
+
+    function previewBlocks(colm, ro, col) {
+      graph2.beginPath();
+      graph2.moveTo(colm * graphUnitx2, ro * graphUnity2);
+      graph2.lineTo((colm * graphUnitx2) + graphUnitx2, ro * graphUnity2);
+      graph2.lineTo((colm * graphUnitx2) + graphUnitx2, (ro * graphUnity2) + graphUnity2);
+      graph2.lineTo((colm * graphUnitx2), (ro * graphUnity2) + graphUnity2);
+      graph2.lineTo(colm * graphUnitx2, ro * graphUnity2);
+      graph2.strokeStyle = "black"
+      graph2.fillStyle = col
+      graph2.stroke();
+      graph2.fill();
+    }
+
+    var move = 0;
+    var canSpawn = true;
+    var refSpeed = 200/4;
+    var pos = 0;
+    var triggerCont = true;
+    var blockOffset1 = 0;
+    var blockOffset2 = 0;
+    var blockOffset3 = 0;
+    var blockOffset4 = 0;
+    var rotState = 1;
+    var timeOffset = 0;
+    var wideOffset = 0;
+
+    var gameOver = false;
+
+    function refreshGrid() {
+
+      score = 0;
+
+      function refresh() {
+
+        gridCanv.width = gridCanv.width;
+        graphCanv2.width = graphCanv2.width;
+
+        var column = -1;
+        var row = 19;
+        var rowClearCounter = -1;
+        var moveBlocksDown = false;
+
+        if (gameOver == true) {
+
+          gridArr = [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          ];
+
+          gridPreview = [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]
+          ];
+
+          startButton.innerHTML = "Play Again"
+          startButton.style.cssText = "margin-left: 90px; display: block; padding: 20px 30px; background: #38b53c; color: white; font-size: 20px; border: none;";
+
+          gridCanv.style.background = "black";
+          graphCanv2.style.background = "black";
+
+          writeGameOver("GAME OVER", score);
+
+          clearInterval(ref);
+
+        }
+
+        // hard coded array's length for simplicity's sake
+        for (var z = 0; z < 199; z++) {
+
+          if (column >= 9) {
+            row = row - 1;
+            column = 0;
+            // when the algorithm finds a row of 10, it deletes it
+            if (rowClearCounter >= 9) {
+              moveBlocksDown = true;
+              score = score + 1000;
+              console.log("10 Across!!!!!!!!!!!!");
+              for (var i = 0; i < 10; i++) {
+                gridArr[row+1][i] = 0;
+              }
+            }
+            //////
+            rowClearCounter = 0;
+          }
+          else {
+            column++;
+            if (gridArr[row][column] >= 8) {
+              rowClearCounter++
+            }
+          }
+
+          if (row == 0) {
+            if (gridArr[row][column] >= 8) {
+              gameOver = true;
+            }
+          }
+
+          if (gridArr[row][column] == 1 || gridArr[row][column] == 1*10) {
+            drawBlocks(column, row, "#ff3333"); //red
+          }
+          else if (gridArr[row][column] == 2 || gridArr[row][column] == 2*10) {
+            drawBlocks(column, row, "#0066ff"); //blue
+          }
+          else if (gridArr[row][column] == 3 || gridArr[row][column] == 3*10) {
+            drawBlocks(column, row, "#47d147"); //green
+          }
+          else if (gridArr[row][column] == 4 || gridArr[row][column] == 4*10) {
+            drawBlocks(column, row, "#ffff33"); //yellow
+          }
+          else if (gridArr[row][column] == 5 || gridArr[row][column] == 5*10) {
+            drawBlocks(column, row, "#ff751a"); //orange
+          }
+          else if (gridArr[row][column] == 6 || gridArr[row][column] == 6*10) {
+            drawBlocks(column, row, "#40E0D0"); // turquoise
+          }
+          else if (gridArr[row][column] == 7 || gridArr[row][column] == 7*10) {
+            drawBlocks(column, row, "#a64dff"); // violet
+          }
+
+          if (gridArr[row][column] < 10) {
+            gridArr[row][column] = 0;
+          }
+
+          if (moveBlocksDown == true) {
+
+            gridArr[row + 1][column] = gridArr[row][column];
+
+          }
+
+
+        }
+
+        var column2 = -1
+        var row2 = 0
+
+        for (var i = 0; i < 24; i++) {
+          if (column2 >= 4) {
+            row2++
+            column2 = 0;
+          }
+          else {
+            column2++
+          }
+          if (gridPreview[row2][column2] == 1) {
+            previewBlocks(column2, row2, "#ff3333"); //red
+          }
+          else if (gridPreview[row2][column2] == 2) {
+            previewBlocks(column2, row2, "#0066ff"); //blue
+          }
+          else if (gridPreview[row2][column2] == 3) {
+            previewBlocks(column2, row2, "#47d147"); //green
+          }
+          else if (gridPreview[row2][column2] == 4) {
+            previewBlocks(column2, row2, "#ffff33"); //yellow
+          }
+          else if (gridPreview[row2][column2] == 5) {
+            previewBlocks(column2, row2, "#ff751a"); //orange
+          }
+          else if (gridPreview[row2][column2] == 6) {
+            previewBlocks(column2, row2, "#40E0D0"); // turquoise
+          }
+          else if (gridPreview[row2][column2] == 7) {
+            previewBlocks(column2, row2, "#a64dff"); // violet
+          }
+
+        }
+
+      }
+
+      var ref = setInterval(refresh, refSpeed);
+
+    }
+
+    var blockPreview = Math.floor(Math.random() * 7) + 1;
+    var colorPreview = Math.floor(Math.random() * 7) + 1;
+    var blockSelect = Math.floor(Math.random() * 7) + 1;
+    var colorSelect = Math.floor(Math.random() * 7) + 1;
+
+    var blockWidth = 0;
+
+    var moveDelay = 0;
+    var rotDelay = 0;
+    var rotLimit = true;
+    var diagnolObjSenseLeft = false;
+    var diagnolObjSenseRight = false;
+
+    function blockSpawn(pick, col, mov, prev, precol) {
+
+      function moveBlocks() {
+
+        // slows down the rotation so that user doesn't accidentaly over rotate
+        if (rotLimit == false) {
+          rotDelay = rotDelay + 1
+          if (rotDelay >= 3) {
+            rotDelay = 0;
+            rotLimit = true;
+          }
+        }
+
+        //User inputs
+
+        // speed up inputs \/\/\/\/\/\/
+        if (speedDown == true) {
+          if (triggerCont == true) {
+            mov = mov + 1;
+            score = score + 10;
+          }
+        }
+        if (speedDown == false) {
+          if (triggerCont == true) {
+            moveDelay = moveDelay + 1;
+            if (moveDelay >= 4) {
+              moveDelay = 0;
+              mov = mov + 1;
+              score = score + 10;
+            }
+          }
+        }
+        // /\/\/\/\/\/\/\/\
+
+        // block right/left movement \/\/\/\/\/
+        if (inputRight == true && pos+blockWidth < 10 && diagnolObjSenseRight == false) {
+          pos = pos + 1
+        }
+        else if (inputLeft == true && pos > 0 && diagnolObjSenseLeft == false) {
+          pos = pos - 1
+        }
+        // /\/\/\/\
+
+        // Rotation Logic \/\/\/\/\/\/
+        if (rotLimit == true && inputRotRight == true) {
+          rotState = rotState + 1;
+          inputRotRight = false;
+          rotLimit = false;
+          if (rotState < 1) {
+            rotState = 4;
+          }
+          if (rotState > 4) {
+            rotState = 1;
+          }
+        }
+        else if (rotLimit == true && inputRotLeft == true) {
+          rotState = rotState - 1;
+          inputRotLeft = false;
+          rotLimit = false;
+          if (rotState > 4) {
+            rotState = 1;
+          }
+          if (rotState < 1) {
+            rotState = 4;
+          }
+        }
+        /////// /\/\/\/\/\/\/\
+
+        //Positions preview blockSize
+
+        if (prev == 1) { //square
+          gridPreview[1][2] = precol;
+          gridPreview[1][3] = precol;
+          gridPreview[2][2] = precol;
+          gridPreview[2][3] = precol;
+        }
+        else if (prev == 2) { //zz right
+          gridPreview[2][1] = precol;
+          gridPreview[2][2] = precol;
+          gridPreview[3][2] = precol;
+          gridPreview[3][3] = precol;
+        }
+        else if (prev == 3) { //zz left
+          gridPreview[2][3] = precol;
+          gridPreview[2][2] = precol;
+          gridPreview[3][2] = precol;
+          gridPreview[3][1] = precol;
+        }
+        else if (prev == 4) { //L left
+          gridPreview[2][3] = precol;
+          gridPreview[3][1] = precol;
+          gridPreview[3][2] = precol;
+          gridPreview[3][3] = precol;
+        }
+        else if (prev == 5) { //L right
+          gridPreview[2][1] = precol;
+          gridPreview[3][1] = precol;
+          gridPreview[3][2] = precol;
+          gridPreview[3][3] = precol;
+        }
+        else if (prev == 6) { //line
+          gridPreview[2][1] = precol;
+          gridPreview[2][2] = precol;
+          gridPreview[2][3] = precol;
+          gridPreview[2][4] = precol;
+        }
+        else if (prev == 7) { //T
+          gridPreview[2][2] = precol;
+          gridPreview[3][1] = precol;
+          gridPreview[3][2] = precol;
+          gridPreview[3][3] = precol;
+        }
+
+        //Positions main blocks
+
+        //square: 2 blocks wide
+        if (pick == 1) {
+          if (rotState == 1 || rotState == 2 || rotState == 3 || rotState == 4 ) {
+            gridArr[mov][pos+0] = col;
+            gridArr[mov][pos+1] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+        }
+        //zigzag right: 3 blocks wide
+        else if (pick == 2) {
+          if (rotState == 1) {
+            gridArr[mov][pos+0] = col;
+            gridArr[mov][pos+1] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos+2] = col;
+
+            blockOffset1 = 1;
+            blockOffset2 = 2;
+            blockOffset3 = 2;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 2) {
+            gridArr[mov][pos+1] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos] = col;
+            gridArr[mov+2][pos] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 2;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+          else if (rotState == 3) {
+            gridArr[mov][pos+0] = col;
+            gridArr[mov][pos+1] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos+2] = col;
+
+            blockOffset1 = 1;
+            blockOffset2 = 2;
+            blockOffset3 = 2;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 4) {
+            gridArr[mov][pos+1] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos] = col;
+            gridArr[mov+2][pos] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 2;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+        }
+        //zigzag left: 3 blocks wide
+        else if (pick == 3) {
+          if (rotState == 1) {
+            gridArr[mov][pos+1] = col;
+            gridArr[mov][pos+2] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 1;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 2) {
+            gridArr[mov][pos] = col;
+            gridArr[mov+1][pos] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+2][pos+1] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 3;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+          else if (rotState == 3) {
+            gridArr[mov][pos+1] = col;
+            gridArr[mov][pos+2] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 1;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 4) {
+            gridArr[mov][pos] = col;
+            gridArr[mov+1][pos] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+2][pos+1] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 3;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+        }
+        //L left: 3 blocks wide
+        else if (pick == 4) {
+          if (rotState == 1) {
+            gridArr[mov][pos+2] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos+2] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 2;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 2) {
+            gridArr[mov][pos+0] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+2][pos+0] = col;
+            gridArr[mov+2][pos+1] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 3;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+          else if (rotState == 3) {
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+0][pos+2] = col;
+            gridArr[mov+1][pos+0] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 1;
+            blockOffset3 = 1;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          if (rotState == 4) {
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+2][pos+1] = col;
+            gridArr[mov+2][pos+0] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 3;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+        }
+        //L right: 3 blocks wide
+        else if (pick == 5) {
+          if (rotState == 1) {
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos+2] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 2;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 2) {
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+0][pos+2] = col;
+            gridArr[mov+1][pos+0] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 1;
+            blockOffset3 = 1;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 3) {
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+2][pos+1] = col;
+
+            blockOffset1 = 1;
+            blockOffset2 = 3;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+          else if (rotState == 4) {
+            gridArr[mov+0][pos+2] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos+2] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 2;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+        }
+        // straight line: 3 blocks
+        else if (pick == 6) {
+          if (rotState == 1) {
+            gridArr[mov][pos+0] = col;
+            gridArr[mov][pos+1] = col;
+            gridArr[mov][pos+2] = col;
+            gridArr[mov][pos+3] = col;
+
+            blockOffset1 = 1;
+            blockOffset2 = 1;
+            blockOffset3 = 1;
+            blockOffset4 = 1;
+
+            blockWidth = 4;
+          }
+          else if (rotState == 2) {
+            gridArr[mov-1][pos+0] = col;
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+2][pos+0] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 0;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 1;
+          }
+          else if (rotState == 3) {
+            gridArr[mov][pos+0] = col;
+            gridArr[mov][pos+1] = col;
+            gridArr[mov][pos+2] = col;
+            gridArr[mov][pos+3] = col;
+
+            blockOffset1 = 1;
+            blockOffset2 = 1;
+            blockOffset3 = 1;
+            blockOffset4 = 1;
+
+            blockWidth = 4;
+          }
+          else if (rotState == 4) {
+            gridArr[mov-1][pos+0] = col;
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+2][pos+0] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 0;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 1;
+          }
+        }
+        // T: 3 blocks
+        else if (pick == 7) {
+          if (rotState == 1) {
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+1][pos+2] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 2;
+            blockOffset3 = 2;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 2) {
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+2][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+
+            blockOffset1 = 3;
+            blockOffset2 = 2;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+          else if (rotState == 3) {
+            gridArr[mov+0][pos+0] = col;
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+0][pos+2] = col;
+            gridArr[mov+1][pos+1] = col;
+
+            blockOffset1 = 1;
+            blockOffset2 = 2;
+            blockOffset3 = 1;
+            blockOffset4 = 0;
+
+            blockWidth = 3;
+          }
+          else if (rotState == 4) {
+            gridArr[mov+0][pos+1] = col;
+            gridArr[mov+1][pos+0] = col;
+            gridArr[mov+1][pos+1] = col;
+            gridArr[mov+2][pos+1] = col;
+
+            blockOffset1 = 2;
+            blockOffset2 = 3;
+            blockOffset3 = 0;
+            blockOffset4 = 0;
+
+            blockWidth = 2;
+          }
+        }
+        // mulitple if statements instead of || to get better control and to avoid ultra long if logic
+        if (blockOffset1 != 0 && (mov + blockOffset1) >= 20 || blockOffset2 != 0 && (mov + blockOffset2) >= 20 || blockOffset3 != 0 && (mov + blockOffset3) >= 20 || blockOffset4 != 0 && (mov + blockOffset4) >= 20) {
+          canSpawn = true;
+          triggerCont = false;
+        }
+        else if (blockOffset1 != 0 && gridArr[mov + blockOffset1][pos] > 0) {
+          canSpawn = true;
+          triggerCont = false;
+        }
+        else if (blockOffset2 != 0 && gridArr[mov + blockOffset2][pos + 1] > 0) {
+          canSpawn = true;
+          triggerCont = false;
+        }
+        else if (blockOffset3 != 0 && gridArr[mov + blockOffset3][pos + 2] > 0) {
+          canSpawn = true;
+          triggerCont = false;
+        }
+        else if (blockOffset4 != 0 && gridArr[mov + blockOffset4][pos + 3] > 0) {
+          canSpawn = true;
+          triggerCont = false;
+        }
+
+        //// Used for diagnol sensing
+        //// right detection
+        if (blockOffset4 == 0 && blockOffset3 == 0 && blockOffset2 == 0 && blockOffset1 != 0 && gridArr[mov + blockOffset1][pos + 1] > 0) {
+          diagnolObjSenseRight = true;
+        }
+        else if (blockOffset4 == 0 && blockOffset3 == 0 && blockOffset2 != 0 && gridArr[mov + blockOffset2][pos + 2] > 0) {
+          diagnolObjSenseRight = true;
+        }
+        else if (blockOffset3 != 0 && gridArr[mov + blockOffset3][pos + 3] > 0) {
+          diagnolObjSenseRight = true;
+        }
+        else if (blockOffset4 != 0 && gridArr[mov + blockOffset4][pos + 4] > 0) {
+          diagnolObjSenseRight = true;
+        }
+        else {
+          diagnolObjSenseRight = false;
+        }
+        ////// Left detection
+        if (blockOffset1 != 0 && gridArr[mov + blockOffset1][pos - 1] > 0) {
+          diagnolObjSenseLeft = true;
+        }
+        else {
+          diagnolObjSenseLeft = false;
+        }
+
+        var column = -1;
+        var row = 19;
+
+        if (canSpawn == true) {
+
+          score = score + 100;
+
+          rotState = 1;
+
+          gridPreview = [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]
+          ];
+
+          for (var z = 0; z < 199; z++) {
+
+            if (column >= 9) {
+              row = row - 1;
+              column = 0;
+            }
+            else {
+              column++;
+            }
+            if (gridArr[row][column] > 0 && gridArr[row][column] < 10) {
+              gridArr[row][column] = gridArr[row][column]*10
+            }
+          }
+
+          pick = prev;
+          col = precol;
+
+          prev = Math.floor(Math.random() * 7) + 1;
+          precol = Math.floor(Math.random() * 7) + 1;
+
+            if (pick == 1) {
+              pos = Math.floor(Math.random() * 9);
+            }
+            else if (pick == 6) {
+              pos = Math.floor(Math.random() * 7);
+            }
+            else if (pick == 2 || pick == 3 || pick == 4 || pick == 5 || pick == 7) {
+              pos = Math.floor(Math.random() * 8);
+            }
+
+          triggerCont = true;
+          canSpawn = false;
+          mov = -1;
+        }
+
+        writeScore(score);
+
+        if (gameOver == true) {
+          clearInterval(execute);
+          gridPreview = [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]
+          ];
+        }
+
+      }
+
+      var execute = setInterval(moveBlocks, refSpeed)
+
+    }
+
+    function play() {
+
+      refreshGrid();
+      blockSpawn(blockSelect, colorSelect, move, blockPreview, colorPreview);
+      canSpawn = false;
+      startButton.style.display = "none";
+      gridCanv.style.background = "lightgrey";
+      graphCanv2.style.background = "lightgrey";
+      gameOver = false;
+
+    }
+
+    var inputRotLeft = false;
+    var inputRotRight = false;
+    var inputRight = false;
+    var inputLeft = false;
+    var speedDown = false;
+
+
+    // kd.R.down(function () {
+    // inputRotRight = true;
+    // });
+    function rotRightOn() {
+      inputRotRight = true;
+    }
+    // kd.E.down(function () {
+    //   inputRotLeft = true;
+    // });
+    function rotLeftOn() {
+      inputRotRight = true;
+    }
+    // kd.UP.down(function () {
+    // inputRotRight = true;
+    // });
+    // kd.UP.up(function () {
+    // inputRotRight = false;
+    // });
+    // kd.DOWN.down(function () {
+    //   inputRotLeft = true;
+    // });
+    // kd.DOWN.up(function () {
+    //   inputRotLeft = false;
+    // });
+    // kd.D.down(function () {
+    // inputRight = true;
+    // });
+    // kd.D.up(function () {
+    //  inputRight = false;
+    // });
+    // kd.A.down(function () {
+    //   inputLeft = true;
+    // });
+    // kd.A.up(function () {
+    //  inputLeft = false;
+    // });
+    // kd.SPACE.down(function () {
+    //   speedDown = true;
+    // });
+    function speedOn() {
+      speedDown = true;
+    }
+    // kd.SPACE.up(function () {
+    //   speedDown = false;
+    // });
+    function speedOff() {
+      speedDown = false;
+    }
+    // kd.LEFT.down(function () {
+    //   inputLeft = true;
+    // });
+    function leftOn() {
+      inputLeft = true;
+    }
+    // kd.LEFT.up(function () {
+    //   inputLeft = false;
+    // });
+    function leftOff() {
+      inputLeft = false;
+    }
+    // kd.RIGHT.down(function () {
+    //   inputRight = true;
+    // });
+    function rightOn() {
+      inputRight = true;
+    }
+    // kd.RIGHT.up(function () {
+    //   inputRight = false;
+    // });
+    function rightOff() {
+      inputRight = false;
+    }
+    //
+    //
+    // // This update loop is the heartbeat of Keydrown
+    // kd.run(function () {
+    //   kd.tick();
+    // });
+
+
+  </script>
+
+</html>
