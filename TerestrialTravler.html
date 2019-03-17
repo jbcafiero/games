@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+<link href="https://fonts.googleapis.com/css?family=Orbitron|Questrial|Staatliches|ZCOOL+QingKe+HuangYou" rel="stylesheet">
+    <!-- font-family: 'ZCOOL QingKe HuangYou', cursive;
+        font-family: 'Staatliches', cursive;
+        font-family: 'Questrial', sans-serif;
+        font-family: 'Orbitron', sans-serif; -->
+    <style media="screen">
+      .statBarItem {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 20px;
+        color: white;
+        transition: color 0.3s;
+        float: left;
+        margin: none;
+        padding: none;
+      }
+
+      body {
+        background: #1e1e1e;
+        text-align: center;
+      }
+
+      .startButton {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: 33.3%;
+        height: 85px;
+        margin: 270px 33.3%;
+        display: block;
+        z-index: 50;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 30px;
+        color: white;
+        background: none;
+        border: 2px solid white;
+
+        transition: background 0.15s, color 0.15s, padding 0.15s, margin 0.15s, opacity 0.6s;
+      }
+      .startButton:hover {
+        color: black;
+        background: white;
+      }
+
+
+      .tempBar {
+        height: 20px;
+        width: 150px;
+        background-image: linear-gradient(to right, blue , red);
+        float: left;
+
+        margin-left: 10px;
+        position: relative;
+        border-radius: 2px;
+      }
+
+      #stats {
+        margin-left: 15px;
+        opacity: 0;
+        left: 0;
+        top: 0;
+        transition: opacity 0.6s;
+      }
+      .breakUpStats {
+        text-align: left;
+        float: right;
+        width: 250px;
+      }
+      #fuelBar {
+        border-radius: 2px;
+        position: absolute;
+        height: 20px;
+        width: 150px;
+        background-color: white;
+        z-index: 1;
+      }
+
+      #meterBar {
+        position: absolute;
+        left: 75px;
+        height: 20px;
+        width: 4px;
+        background: yellow;
+      }
+
+      #backDropBar {
+        border-radius: 2px;
+        position: relative;
+        float: left;
+        z-index: -1;
+        width: 150px;
+        margin-top: 25px;
+        margin-left: 10px;
+        height: 20px;
+        background: #424242;
+      }
+
+      .rightStatBars {
+        height: 50px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 20px;
+        color: white;
+        width: 300px;
+        transition: color 0.3s;
+        float: right;
+      }
+
+      #leftBars {
+        float: left;
+        width: 350px;
+        opacity: 1;
+        transition: opacity 0.2s;
+      }
+
+      #healthBar {
+        border-radius: 2px;
+        position: absolute;
+        height: 20px;
+        width: 150px;
+        background-color: green;
+        z-index: 1;
+      }
+
+      .gameScreen {
+        position: relative;
+      }
+      .titleBar {
+        height: 600px;
+        width: 1000px;
+        test-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 12% auto;
+        z-index: 200;
+        opacity: 1;
+        transition: opacity 0.6s;
+      }
+
+      #titleText {
+        position: absolute;
+        top: 0;
+        opacity: 1;
+        display: block;
+        width: 95%;
+        margin: -25px 2.5%;
+        transition: opacity 0.6s;
+      }
+
+      .canvasBasic {
+        padding: 0;
+        background: none;
+        position: absolute;
+      }
+
+      #usernameInput {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: 31.0%;
+        padding: 1%;
+        height: 50px;
+        margin: 175px 33.3%;
+        display: block;
+        z-index: 1000;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 30px;
+        color: white;
+        background: none;
+        border: 2px solid white;
+
+        transition: border 0.2s margin 0.2s;
+      }
+      #usernameInput:focus {
+        margin: 171px 33.1%;
+        border: 4px solid white;
+      }
+
+      .otherOptions {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: 33.3%;
+        height: 85px;
+        margin: 370px 33.3%;
+        display: block;
+        z-index: 50;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 30px;
+        color: white;
+        background: none;
+
+        transition: background 0.15s, color 0.15s, padding 0.15s, margin 0.15s, opacity 0.6s;
+      }
+
+      .options {
+        position: absolute;
+        z-index: 100px;
+        float: left;
+        background: none;
+        height: 60%;
+        width: 15%;
+        border: 2px solid white;
+
+        transition: background 0.15s, color 0.15s, padding 0.15s, margin 0.15s, opacity 0.6s;
+      }
+
+      .options:hover {
+        background: white;
+        color: black;
+      }
+
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      #displayOfLeaderBoard {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -10000;
+        opacity: 0;
+      }
+      .titleForLeaderBoard {
+        top: 0;
+        height: 12%;
+        width: 100%;
+        border-bottom: 1px solid white;
+      }
+
+      .boardOptions {
+        position: absolute;
+        height: 12%;
+        width: 100%;
+        top: 0;
+        margin-top: 13%;
+        border-bottom: 1px solid white;
+      }
+
+      .searchUsers {
+
+      }
+
+      #searchUsernames {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 31.0%;
+        padding: 1%;
+        height: 40px;
+        display: block;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 30px;
+        color: white;
+        background: none;
+        border: 2px solid white;
+
+        transition: border 0.2s margin 0.2s;
+      }
+      #searchUsernames:focus {
+        margin: -2px;
+        border: 4px solid white;
+      }
+
+      .tableWithScroll {
+        position: absolute;
+        height: 65%;
+        width: 100%;
+        bottom: 0;
+        overflow: auto;
+      }
+
+      #BackButton {
+        position: absolute;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 30px;
+        color: white;
+        background: none;
+        border: 2px solid white;
+        height: 65px;
+        width: 15%;
+        top: 0;
+        left: 0;
+        margin-top: 0px;
+        transition: background 0.15s, color 0.15s, padding 0.15s, margin 0.15s, opacity 0.6s;
+      }
+
+      #BackButton:hover {
+        background: white;
+        color: black;
+      }
+
+      .boardWrite {
+        width: 100%;
+        top: 0;
+        margin-top: 15px;
+        font-size: 25px;
+        font-family: 'Orbitron', sans-serif;
+        color: white;
+      }
+
+      .rank {
+        font-weight: bold;
+        font-size: 30px;
+      }
+
+            /* width */
+      ::-webkit-scrollbar {
+        width: 25px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: none;
+        border: 2px solid white;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: none;
+        border: 2px solid white;
+        transition: background 0.2s;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: white;
+      }
+
+      .boardHeaders {
+        margin-top: -3px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid white;
+        font-size: 35px;
+        margin-bottom: 15px;
+      }
+
+      .leaderRows {
+        padding: 5px 0px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="gameScreen" id="gameMainCont">
+      <div class="titleBar" id="gameOptions" style="">
+        <div id="TitleScreen">
+          <div id="titleText">
+            <p id="titleInfo" style="font-size: 70px; font-family: 'Orbitron', sans-serif; color: white;">Terrestrial Traveler</p>
+          </div>
+          <input id="usernameInput" type="text" name="" value="" placeholder=" username">
+          <button id="accsesStartButton" class="startButton" type="button" name="button" onclick="runFunc()">Play Game</button>
+
+          <div class="otherOptions">
+            <div class="options" id="info" style="margin-left: 0%;">
+                <p type="button" style="font-family: 'Orbitron', sans-serif; font-size: 35px; margin-top: 5px;">i</p>
+            </div>
+            <div class="options" id="donate" style="margin-left: 42%">
+              <p type="button" style="font-family: 'Orbitron', sans-serif; font-size: 35px; margin-top: 5px;">$</p>
+            </div>
+            <div class="options" id="leaderboard" style="margin-left: 84%">
+              <p type="button" style="font-family: Helvetica; font-size: 70px; margin-top: -20px;">o</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="displayOfLeaderBoard">
+          <div class="titleForLeaderBoard">
+            <h2 style="font-size: 60px; font-family: 'Orbitron', sans-serif; color: white;">Leader Board</h2>
+          </div>
+          <div class="boardOptions">
+            <button id="BackButton" type="button" name="button">Back</button>
+            <input id="searchUsernames"type="text" name="" value="" placeholder="Search">
+          </div>
+          <div class="tableWithScroll">
+            <table class="boardWrite">
+              <tr>
+                <th class="boardHeaders">Rank</th>
+                <th class="boardHeaders">Distance</th>
+                <th class="boardHeaders">User</th>
+              </tr>
+              <script type="text/javascript">
+              var recordOfScores = [];
+              for (var v = 0; v < 50; v++) {
+                recordOfScores.push({'rank':3, 'distance':`${12234}m`, 'username':'Jeff'});
+                recordOfScores.push({'rank':8, 'distance':`${10845}m`, 'username':'Bob'});
+              }
+                for (var t = 0; recordOfScores[t] != null; t++) {
+                  document.write(`<tr>`)
+                  document.write(`<td class="rank leaderRows">${recordOfScores[t].rank}</td>`)
+                  document.write(`<td class='leaderRows'>${recordOfScores[t].distance}</td>`)
+                  document.write(`<td class='leaderRows'>${recordOfScores[t].username}</td>`)
+                  document.write(`</tr>`)
+                }
+              </script>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div id="stats" style="top: 0px; position: absolute; z-index: 2; height: 300px; width: 100%;">
+        <div id="leftBars">
+          <div class="breakUpStats" style="width: 250px;">
+            <p class="statBarItem" id="fuel">Fuel: </p>
+            <div id="backDropBar">
+              <div id="fuelBar">
+              </div>
+            </div>
+          </div>
+          <div class="breakUpStats" style="width: 350px;">
+            <p class="statBarItem" id="temp" style="margin: none; margin-top: -5px;">Temperature: </p>
+            <div class="tempBar" style="position: relative;">
+              <div id="meterBar">
+              </div>
+            </div>
+          </div>
+          <div class="breakUpStats" style="width: 275px; margin-top: -25px;">
+            <p class="statBarItem" id="health">Health: </p>
+            <div id="backDropBar">
+              <div id="healthBar">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="breakUpStats">
+          <p class="rightStatBars" id="dist">Distance: </p>
+        </div>
+      </div>
+      <canvas id="canvas" class="canvasBasicWidths" height="1000" style="background: black; position: absolute; z-index: -10;"></canvas>
+      <canvas id="ball" class="canvasBasic canvasBasicWidths" height="1000" style='z-index: -1;'></canvas>
+      <canvas id="fire" class="canvasBasic canvasBasicWidths" height="1000" style='z-index: -2;'></canvas>
+      <canvas id="stars" class="canvasBasic canvasBasicWidths" height="1000" style="z-index: -5;"></canvas>
+      <canvas id="test" class="canvasBasic canvasBasicWidths" height="1000"  style="z-index: -4;"></canvas>
+      <canvas id="enemy" class="canvasBasic canvasBasicWidths" height="1000"  style="z-index: -3;"></canvas>
+      <canvas id="particles" class="canvasBasicWidths" height="1000" style="z-index: 1;"></canvas>
+    </div>
+
+
+
+  <script>
+  /*! keydrown - v1.2.7 - 2018-12-19 - http://jeremyckahn.github.com/keydrown */
+;(function (window) {
+
+var util = (function () {
+
+  var util = {};
+
+  /**
+   * @param {Object} obj The Object to iterate through.
+   * @param {function(*, string)} iterator The function to call for each property.
+   */
+  util.forEach = function (obj, iterator) {
+    var prop;
+    for (prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        iterator(obj[prop], prop);
+      }
+    }
+  };
+  var forEach = util.forEach;
+
+
+  /**
+   * Create a transposed copy of an Object.
+   *
+   * @param {Object} obj
+   * @return {Object}
+   */
+  util.getTranspose = function (obj) {
+    var transpose = {};
+
+    forEach(obj, function (val, key) {
+      transpose[val] = key;
+    });
+
+    return transpose;
+  };
+
+
+  /**
+   * Implementation of Array#indexOf because IE<9 doesn't support it.
+   *
+   * @param {Array} arr
+   * @param {*} val
+   * @return {number} Index of the found element or -1 if not found.
+   */
+  util.indexOf = function (arr, val) {
+    if (arr.indexOf) {
+      return arr.indexOf(val);
+    }
+
+    var i, len = arr.length;
+    for (i = 0; i < len; i++) {
+      if (arr[i] === val) {
+        return i;
+      }
+    }
+
+    return -1;
+  };
+  var indexOf = util.indexOf;
+
+
+  /**
+   * Push a value onto an array if it is not present in the array already.  Otherwise, this is a no-op.
+   *
+   * @param {Array} arr
+   * @param {*} val
+   * @return {boolean} Whether or not the value was added to the array.
+   */
+  util.pushUnique = function (arr, val) {
+    if (indexOf(arr, val) === -1) {
+      arr.push(val);
+      return true;
+    }
+
+    return false;
+  };
+
+
+  /**
+   * Remove a value from an array.  Assumes there is only one instance of the
+   * value present in the array.
+   *
+   * @param {Array} arr
+   * @param {*} val
+   * @return {*} The value that was removed from arr.  Returns undefined if
+   * nothing was removed.
+   */
+  util.removeValue = function (arr, val) {
+    var index = indexOf(arr, val);
+
+    if (index !== -1) {
+      return arr.splice(index, 1)[0];
+    }
+  };
+
+
+  /**
+   * Cross-browser function for listening for and handling an event on the
+   * document element.
+   *
+   * @param {string} eventName
+   * @param {function} handler
+   */
+  util.documentOn = function (eventName, handler) {
+    if (window.addEventListener) {
+      window.addEventListener(eventName, handler, false);
+    } else if (document.attachEvent) {
+      document.attachEvent('on' + eventName, handler);
+    }
+  };
+
+
+  /**
+   * Shim for requestAnimationFrame.  See:
+   * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+   */
+  util.requestAnimationFrame = (function () {
+    return window.requestAnimationFrame  ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame    ||
+      function( callback ){
+        window.setTimeout(callback, 1000 / 60);
+      };
+  })();
+
+
+  /**
+   * An empty function.  NOOP!
+   */
+  util.noop = function () {};
+
+  return util;
+
+}());
+
+/**
+ * Lookup table of keys to keyCodes.
+ *
+ * @type {Object.<number>}
+ */
+var KEY_MAP = {
+  'ZERO': 48,
+  'ONE': 49,
+  'TWO': 50,
+  'THREE': 51,
+  'FOUR': 52,
+  'FIVE': 53,
+  'SIX': 54,
+  'SEVEN': 55,
+  'EIGHT': 56,
+  'NINE': 57,
+  'A': 65,
+  'B': 66,
+  'C': 67,
+  'D': 68,
+  'E': 69,
+  'F': 70,
+  'G': 71,
+  'H': 72,
+  'I': 73,
+  'J': 74,
+  'K': 75,
+  'L': 76,
+  'M': 77,
+  'N': 78,
+  'O': 79,
+  'P': 80,
+  'Q': 81,
+  'R': 82,
+  'S': 83,
+  'T': 84,
+  'U': 85,
+  'V': 86,
+  'W': 87,
+  'X': 88,
+  'Y': 89,
+  'Z': 90,
+  'ENTER': 13,
+  'SHIFT': 16,
+  'ESC': 27,
+  'SPACE': 32,
+  'LEFT': 37,
+  'UP': 38,
+  'RIGHT': 39,
+  'DOWN': 40,
+  'BACKSPACE': 8,
+  'DELETE': 46,
+  'TAB': 9,
+  'TILDE': 192
+};
+
+
+/**
+ * The transposed version of KEY_MAP.
+ *
+ * @type {Object.<string>}
+ */
+var TRANSPOSED_KEY_MAP = util.getTranspose(KEY_MAP);
+
+/*!
+ * @type Array.<string>
+ */
+var keysDown = [];
+
+var Key = (function () {
+
+  'use strict';
+
+  /**
+   * Represents a key on the keyboard.  You'll never actually call this method
+   * directly; Key Objects for every key that Keydrown supports are created for
+   * you when the library is initialized (as in, when the file is loaded).  You
+   * will, however, use the `prototype` methods below to bind functions to key
+   * states.
+   *
+   * @param {number} keyCode The keyCode of the key.
+   * @constructor
+   * @class kd.Key
+   */
+  function Key (keyCode) {
+    this.keyCode = keyCode;
+    this.cachedKeypressEvent = null;
+  }
+
+
+  /*!
+   * The function to be invoked on every tick that the key is held down for.
+   *
+   * @type {function}
+   */
+  Key.prototype._downHandler = util.noop;
+
+
+  /*!
+   * The function to be invoked when the key is released.
+   *
+   * @type {function}
+   */
+  Key.prototype._upHandler = util.noop;
+
+
+  /*!
+   * The function to be invoked when the key is pressed.
+   *
+   * @type {function}
+   */
+  Key.prototype._pressHandler = util.noop;
+
+
+  /*!
+   * Private helper function that binds or invokes a hander for `down`, `up',
+   * or `press` for a `Key`.
+   *
+   * @param {Key} key
+   * @param {string} handlerName
+   * @param {function=} opt_handler If omitted, the handler is invoked.
+   * @param {KeyboardEvent=} opt_evt If this function is being called by a
+   * keyboard event handler, this is the raw KeyboardEvent Object provided from
+   * the browser.
+   */
+  function bindOrFire (key, handlerName, opt_handler, opt_evt) {
+    if (opt_handler) {
+      key[handlerName] = opt_handler;
+    } else {
+      key[handlerName](opt_evt);
+    }
+  }
+
+
+  /**
+   * Returns whether the key is currently pressed or not.
+   *
+   * @method isDown
+   * @return {boolean} True if the key is down, otherwise false.
+   */
+  Key.prototype.isDown = function () {
+    return util.indexOf(keysDown, this.keyCode) !== -1;
+  };
+
+
+  /**
+   * Bind a function to be called when the key is held down.
+   *
+   * @method down
+   * @param {function=} opt_handler The function to be called when the key is
+   * held down.  If omitted, this function invokes whatever handler was
+   * previously bound.
+   */
+  Key.prototype.down = function (opt_handler) {
+    bindOrFire(this, '_downHandler', opt_handler, this.cachedKeypressEvent);
+  };
+
+
+  /**
+   * Bind a function to be called when the key is released.
+   *
+   * @method up
+   * @param {function=} opt_handler The function to be called when the key is
+   * released.  If omitted, this function invokes whatever handler was
+   * previously bound.
+   * @param {KeyboardEvent=} opt_evt If this function is being called by the
+   * keyup event handler, this is the raw KeyboardEvent Object provided from
+   * the browser.  This should generally not be provided by client code.
+   */
+  Key.prototype.up = function (opt_handler, opt_evt) {
+    bindOrFire(this, '_upHandler', opt_handler, opt_evt);
+  };
+
+
+  /**
+   * Bind a function to be called when the key is pressed.  This handler will
+   * not fire again until the key is released — it does not repeat.
+   *
+   * @method press
+   * @param {function=} opt_handler The function to be called once when the key
+   * is pressed.  If omitted, this function invokes whatever handler was
+   * previously bound.
+   * @param {KeyboardEvent=} opt_evt If this function is being called by the
+   * keydown event handler, this is the raw KeyboardEvent Object provided from
+   * the browser.  This should generally not be provided by client code.
+   */
+  Key.prototype.press = function (opt_handler, opt_evt) {
+    this.cachedKeypressEvent = opt_evt;
+    bindOrFire(this, '_pressHandler', opt_handler, opt_evt);
+  };
+
+
+  /**
+   * Remove the handler that was bound with `{{#crossLink
+   * "kd.Key/down:method"}}{{/crossLink}}`.
+   * @method unbindDown
+   */
+  Key.prototype.unbindDown = function () {
+    this._downHandler = util.noop;
+  };
+
+
+  /**
+   * Remove the handler that was bound with `{{#crossLink
+   * "kd.Key/up:method"}}{{/crossLink}}`.
+   * @method unbindUp
+   */
+  Key.prototype.unbindUp = function () {
+    this._upHandler = util.noop;
+  };
+
+
+  /**
+   * Remove the handler that was bound with `{{#crossLink
+   * "kd.Key/press:method"}}{{/crossLink}}`.
+   * @method unbindPress
+   */
+  Key.prototype.unbindPress = function () {
+    this._pressHandler = util.noop;
+  };
+
+  return Key;
+
+}());
+
+var kd = (function (keysDown) {
+
+  'use strict';
+
+  /**
+   * @class kd
+   */
+  var kd = {};
+  kd.Key = Key;
+
+  var isRunning = false;
+
+  var now = Date.now
+     ? Date.now
+     : function () {return +new Date();};
+
+  var previousUpdateTime = now();
+
+  /**
+   * Evaluate which keys are held down and invoke their handler functions.
+   * @method tick
+   */
+  kd.tick = function () {
+    var i, len = keysDown.length;
+    for (i = 0; i < len; i++) {
+      var keyCode = keysDown[i];
+
+      var keyName = TRANSPOSED_KEY_MAP[keyCode];
+      if (keyName) {
+        kd[keyName].down();
+      }
+    }
+  };
+
+
+  /**
+   * A basic run loop.  `handler` gets called approximately 60 times a second.
+   *
+   * @param {Function(number, number)} handler The callback function to call on
+   * every tick.  You likely want to call [kd.tick](#method_tick) in this
+   * function.  This callback receives the time elapsed since the previous
+   * execution of the callback as the first parameter, and the current time
+   * stamp as the second.
+   * @method run
+   */
+  kd.run = function (handler) {
+    isRunning = true;
+    var currentTime = now();
+    var timeSinceLastUpdate = currentTime - previousUpdateTime;
+
+    util.requestAnimationFrame.call(window, function () {
+      if (!isRunning) {
+        return;
+      }
+
+      kd.run(handler);
+      handler(timeSinceLastUpdate, currentTime);
+    });
+
+    previousUpdateTime = currentTime;
+  };
+
+
+  /**
+   * Cancels the loop created by [run](#method_run).
+   * @method stop
+   */
+  kd.stop = function () {
+    isRunning = false;
+  };
+
+
+  // SETUP
+  //
+
+
+  // Initialize the KEY Objects
+  util.forEach(KEY_MAP, function (keyCode, keyName) {
+    kd[keyName] = new Key(keyCode);
+  });
+
+  util.documentOn('keydown', function (evt) {
+    var keyCode = evt.keyCode;
+    var keyName = TRANSPOSED_KEY_MAP[keyCode];
+    var isNew = util.pushUnique(keysDown, keyCode);
+    var key = kd[keyName];
+
+    if (key) {
+      var cachedKeypressEvent = key.cachedKeypressEvent || {};
+
+      // If a modifier key was held down the last time that this button was
+      // pressed, and it is pressed again without the modifier key being
+      // released, it is considered a newly-pressed key.  This is to work
+      // around the fact that the "keyup" event does not fire for the modified
+      // key until the modifier button is also released, which poses a problem
+      // for repeated, modified key presses such as hitting ctrl/meta+Z for
+      // rapid "undo" actions.
+      if (cachedKeypressEvent.ctrlKey ||
+          cachedKeypressEvent.shiftKey ||
+          cachedKeypressEvent.metaKey) {
+        isNew = true;
+      }
+
+      if (isNew) {
+        key.press(null, evt);
+      }
+    }
+  });
+
+  util.documentOn('keyup', function (evt) {
+    var keyCode = util.removeValue(keysDown, evt.keyCode);
+
+    var keyName = TRANSPOSED_KEY_MAP[keyCode];
+    if (keyName) {
+      kd[keyName].up(null, evt);
+    }
+  });
+
+  // Stop firing the "down" handlers if the user loses focus of the browser
+  // window.
+  util.documentOn('blur', function (evt) {
+    // Fire the "up" handler for each key that is currently held down
+    util.forEach(keysDown, function (keyCode) {
+      var mappedKey = TRANSPOSED_KEY_MAP[keyCode];
+      if (mappedKey) {
+        kd[mappedKey].up();
+      }
+    });
+
+    keysDown.length = 0;
+  });
+
+
+  return kd;
+
+ // The variables passed into the closure here are defined in kd.key.js.
+}(keysDown));
+
+if (typeof module === "object" && typeof module.exports === "object") {
+  // Keydrown was loaded as a CommonJS module (by Browserify, for example).
+  module.exports = kd;
+} else if (typeof define === "function" && define.amd) {
+  // Keydrown was loaded as an AMD module.
+  define(function () {
+    return kd;
+  });
+} else {
+  window.kd = kd;
+}
+
+} (window));
+  </script>
+  </body>
+  <script type="text/javascript">
+    var canv = document.getElementById("canvas");
+    var ground = canv.getContext("2d");
+    var tcanv = document.getElementById("test");
+    var tester = tcanv.getContext("2d");
+    var bcanv = document.getElementById('ball');
+    var fcanv = document.getElementById('fire')
+    var fire = fcanv.getContext('2d')
+    var scanv = document.getElementById('stars')
+    var star = scanv.getContext('2d')
+    var pcanv = document.getElementById('particles')
+    var particles = pcanv.getContext('2d')
+    var ecanv = document.getElementById('enemy')
+    var enemies = ecanv.getContext('2d')
+
+    var manualCanvasArr = [canv, tcanv, bcanv, fcanv, scanv, pcanv];
+
+    var gameOptions = document.getElementById("gameOptions");
+    var startButton = document.getElementById("accsesStartButton");
+    var fuel = document.getElementById("fuel");
+    var temp = document.getElementById("temp");
+    var dist = document.getElementById("dist");
+    var statBar = document.getElementById("stats")
+    var fuelMonitor = document.getElementById("fuelBar");
+    var tempMonitor = document.getElementById("meterBar");
+    var healthMonitor = document.getElementById("healthBar");
+    var statLeft = document.getElementById("leftBars");
+    var canvases = document.getElementsByClassName('canvasBasicWidths');
+    var titleInformation = document.getElementById('titleInfo');
+    var screenOfGame = document.getElementById('gameMainCont');
+    var leaderBoard = document.getElementById('leaderboard');
+    var userInput = document.getElementById('usernameInput');
+    var leaderBoardDisplay = document.getElementById('displayOfLeaderBoard');
+    var titleScreen = document.getElementById('TitleScreen');
+    var backButton = document.getElementById('BackButton');
+
+    var i;
+
+    var titleScreenText = "Terrestrial Traveler"
+
+    function drawStats(f, t, d, h) {
+      var widthOfFuelBar = Math.floor(150 * (f/10000));
+      var tempMonPos = Math.floor(150*t/200)-2;
+      fuelMonitor.style.width = widthOfFuelBar.toString()+"px";
+      tempMonitor.style.left = tempMonPos.toString()+"px";
+      healthMonitor.style.width = h.toString()+"px";
+      tempMonitor.style.width = "4px";
+      tempMonitor.style.background = "yellow";
+
+      dist.innerHTML = "Distance: " + d + "m";
+      statBar.style.opacity = 1;
+    }
+
+    function drawTitleScreen() {
+      gameOptions.style.opacity = "0";
+      gameOptions.style.zIndex = -1000;
+    }
+
+
+
+    var test = [];
+    var starPos = [];
+    var landPositions = [];
+    var enemyPositions = [];
+    var currentUser = "";
+    var blockSize = 1000/50;
+    var variation = 10;
+    var offset = 300;
+    var lineBase = canv.height/2 + offset;
+    var numberOfBlocks = 0;
+    var windowWidth = window.innerWidth;
+    var blockAmount = Math.ceil(windowWidth/blockSize)
+    var canvasWidths = (blockSize*blockAmount) - (blockSize*3)
+
+    var hillSize4 = 64;
+    var hillSize = 32;
+    var hillSize2 = 24;
+    var hillSize3 = 16;
+
+    var ticker = 1;
+    var starTicker = 1;
+
+    var plataue1 = 3;
+    var plataueUsed = false;
+
+    var requiredPadSize = 1;
+
+    var scroll = 0;
+
+    var playerDead = false;
+
+    var platauePosition = Math.floor((Math.random() * blockAmount)+1-plataue1)
+
+
+
+    function constructMountais(hillLength, varry, constant) {
+      var change1 = Math.floor((Math.random() * 3)-2)
+      var change2 = Math.floor((Math.random() * 3)-2)
+      var change3 = Math.floor((Math.random() * 3)-2)
+      for (var h = 0; h < hillLength; h++) {
+        var hillRandom = Math.floor((Math.random() * constant)+varry)
+        var chanceOfFlaw = Math.floor((Math.random() * 10)+1)
+        var chanceOfLandingSpot = Math.floor((Math.random() * 25)+1)
+        var flawRandom = Math.floor((Math.random() * (variation/2))+1-(variation/2)/2)
+        plataue1 = Math.floor((Math.random() * 3)+4);
+        var p = 0;
+
+        if (chanceOfLandingSpot == 1) {
+          plataueUsed = true;
+          for (p = 0; p < plataue1; p++) {
+            test[x+h+p] = test[x+h+p-1];
+          }
+        }
+
+        if (h<=((hillLength/4)-1)-change1 && h>=0) {
+          if (chanceOfFlaw == 4) {
+            test[x+h+p] = test[x+h+p-1] + flawRandom;
+          }
+          else {
+            test[x+h+p] = test[x+h+p-1] + hillRandom*0.5
+          }
+        }
+        else if (h<=((hillLength/2)-1)-change2 && h>=(hillLength/4)-change1) {
+          if (chanceOfFlaw == 4) {
+            test[x+h+p] = test[x+h+p-1] + flawRandom;
+          }
+          else {
+            test[x+h+p] = test[x+h+p-1] + hillRandom*1
+          }
+        }
+        else if (h<=((hillLength*75)-1)-change3 && h>=(hillLength/2)-change2) {
+          if (chanceOfFlaw == 4) {
+            test[x+h+p] = test[x+h+p-1] + flawRandom;
+          }
+          else {
+            test[x+h+p] = test[x+h+p-1] - hillRandom*1
+          }
+        }
+        else if (h<=((hillLength)-1) && h>=(hillLength*75)-change3) {
+          if (chanceOfFlaw == 4) {
+            test[x+h+p] = test[x+h+p-1] + flawRandom;
+          }
+          else {
+            test[x+h+p] = test[x+h+p-1] - hillRandom*0.5
+          }
+        }
+        if (test[x]>=canv.height) {
+          test[x] = canv.height - 10;
+        }
+        if (h >= hillLength-1) {
+          x = x+h+p
+        }
+      }
+    }
+
+    function generateArrays() {
+      for (var b = -40; b < 10000+41; b++) {
+        starPos[b] = Math.floor((Math.random() * (scanv.height-(lineBase*0.3)))+1);
+      }
+      for (var o = -40; o < 10000+41; o++) {
+        // creates the positions for enemies and possibly other featurs
+        var decider = Math.floor((Math.random() * 70)+1)
+        if (decider == 3 && enemyPositions[o-1] == 0) {
+          enemyPositions[o] = 1
+        }
+        else if (decider != 3) {
+          enemyPositions[o] = 0
+        }
+      }
+
+  //////////////// For START For START For START For START For START For START For START For START For START
+      for (x=-100; x<blockAmount + 101 + 10000;x++) {
+
+        var basicRandom = Math.floor((Math.random() * variation)+1-variation/2)
+
+        var proceduralChooser = Math.floor((Math.random() * 4)+1)
+
+        switch (proceduralChooser) {
+          case 1:
+            constructMountais(hillSize, 20, 15);
+          break;
+          case 2:
+            constructMountais(hillSize2, 10, 10);
+          break;
+          case 3:
+            constructMountais(hillSize3, 13, 13);
+          break;
+          case 4:
+            constructMountais(hillSize4, 16, 16);
+          break;
+          default:
+            if (test[x-1] != undefined) {
+              test[x] = test[x-1] + basicRandom
+            }
+            else {
+              test[x] = basicRandom+35;
+            }
+          break;
+        }
+        test[x] = basicRandom+35;
+      }
+
+      for (var n = 0; n < test.length; n++) {
+
+        if (test[n] > lineBase-60 || test[n] < lineBase-950) {
+          var e = n
+          while (test[e] > lineBase-60) {
+            test[e] = lineBase-60;
+            e++
+          }
+          while (test[e] < lineBase-950) {
+            test[e] = lineBase-950
+            e++
+          }
+        }
+
+        var slopeDifference;
+        var startToEnd = 0;
+        slopeDifference = test[n] - test[n+1];
+        landPositions[n] = 0;
+        // This just polishes the terrain. putting in as extra bit, but does not work as apart of the rest of the algorithm
+        if (slopeDifference > 50 || slopeDifference < -50) {
+          test[n+1] = test[n+1]/6;
+        }
+        while (slopeDifference < 3 && slopeDifference > -3) {
+          n = n + 1;
+          landPositions[n] = 0;
+          startToEnd = startToEnd + 1;
+          slopeDifference = test[n] - test[n+1];
+          if (slopeDifference > 50 || slopeDifference < -50) {
+            test[n+1] = test[n+1]/6;
+          }
+        }
+        if (startToEnd > requiredPadSize) {
+          var tempValueHold = n;
+          var amountOfStepsIn = 0;
+          //n will have startToEnd taken from it
+          //this will avoid a endless loop beacause if n
+          //is overly manipulated, it could cause endless loop
+          for (var n = n - startToEnd+1; n <= tempValueHold; n++) {
+            amountOfStepsIn = amountOfStepsIn + 1;
+            // test[n] = test[n-amountOfStepsIn] + Math.floor((Math.random() * 3)-1); //levels any area within the for loop
+            landPositions[n] = 1;
+          }
+        }
+      }
+    }
+
+
+
+    ///For END For END For END For END For END For END For END For END For END
+    function drawStars(starX, starY) {
+      if (i==0+starTicker-1) {
+        scanv.width = canvasWidths;
+        star.translate(0-scroll/2, 0);
+      }
+      // star.arc(x, y, 2, 0, 2 * Math.PI);
+      star.beginPath();
+      star.moveTo(starX, starY);
+      star.lineTo(starX+2, starY-2);
+      star.lineTo(starX, starY-4);
+      star.lineTo(starX-2, starY-2);
+      star.closePath();
+      star.fillStyle = "white";
+      var yDeterminer = objAboveGround(starX, starY, starTicker, scroll/2);
+      if (starY < yDeterminer) {
+        star.fill();
+      }
+
+    }
+
+    var executeFill = false;
+
+    function createLineBlock(starty, endy, color) {
+
+      if (i==0+ticker-1) {
+        canv.width = canvasWidths;
+        ground.translate(0-scroll, 0)
+      }
+      ground.beginPath();
+      ground.moveTo(blockSize * (i-1), starty);
+      ground.lineTo(blockSize * (i), endy);
+      ground.strokeStyle = color
+      ground.stroke();
+
+    }
+
+    var playerRotation = 60;
+    var playerVelocityX = 0.7;
+    var xMult;
+    var yMult;
+    var playerPositionX = canvasWidths/2;
+
+
+    //uses the numbers that created the visual line to create a tangable y position of the ground based on player's x position
+
+    function objAboveGround(x, objY, whichTicker, whatLevelOfScroll, chooseReturn) {
+      var trueTick = whichTicker - 1;
+      var realScroll = whatLevelOfScroll
+      var scrollOffset = realScroll - blockSize*(trueTick);
+      var zoneCount = Math.trunc((x+realScroll)/blockSize);
+      var zoneCountRight = Math.trunc((10+x+realScroll)/blockSize);
+      var zoneCountLeft = Math.trunc((10-x+realScroll)/blockSize);
+      var difference1;
+      var addStep1;
+      var finalAddStep1;
+      var heightOfGround;
+
+      if (i == 0+starTicker-1) {
+        heightOfGround = lineBase - test[trueTick];
+        difference1 = test[trueTick] - test[zoneCount + 1]
+      }
+
+      difference1 = test[zoneCount] - test[zoneCount + 1]
+      addStep1 = Math.ceil((((x+realScroll)-(zoneCount*blockSize))/blockSize)*100)/100
+      // addStep = Math.ceil((Math.trunc(playerPositionX+scroll/blockSize) - (playerPositionX+scroll/blockSize))*100)/100;
+      finalAddStep1 = -(difference1 * addStep1)
+      heightOfGround = lineBase - (test[zoneCount] + finalAddStep1);
+      // +(scroll-(blockSize*(ticker-1)))\
+
+      switch (chooseReturn) {
+        case 1:
+          return heightOfGround;
+        break;
+        case 2:
+          return zoneCount;
+        break;
+        case 3:
+          return zoneCountLeft;
+        break;
+        case 4:
+          return zoneCountRight;
+        break;
+        default:
+          return heightOfGround + 1;
+      }
+    }
+
+/////// Paricles Function
+    var particleIndex = [];
+
+    function animateParticles(color) {
+      var playerXVelHold = playerVelocityX;
+      var playerYVelHold = playerVelocityY;
+      for (var p = 0; p < 100; p++) {
+        particleIndex[p] = {'curX':playerPositionX, 'curY':playerPositionY, 'velX':((Math.random() * 10)-5), 'velY':((Math.random() * 10)-5)}
+
+        particleIndex[p].velY = (particleIndex[p].velY + playerVelocityY)*-1;
+      }
+      var counterDowner = 0;
+      var dampener = 0.99
+      var sizeDecreaseer = 2.5;
+      var fader = 1;
+      function executeAnimation() {
+        pcanv.width = canvasWidths;
+        counterDowner++
+        if (counterDowner > 250) {
+          pcanv.width = canvasWidths;
+          clearInterval(executerOfAnim);
+        }
+        if (sizeDecreaseer > 0) {
+          sizeDecreaseer = sizeDecreaseer - 0.06;
+        }
+        else {
+          sizeDecreaseer = 0;
+        }
+        if (fader > 0) {
+          fader = fader - 0.08;
+        }
+        if (dampener < 1) {
+          dampener = dampener - 0.0005;
+        }
+        for (var p = 0; p < 100; p++) {
+
+          particleIndex[p].velX = particleIndex[p].velX * dampener
+          particleIndex[p].velY = particleIndex[p].velY * dampener
+          particleIndex[p].curX = particleIndex[p].curX + particleIndex[p].velX;
+          particleIndex[p].curY = particleIndex[p].curY + particleIndex[p].velY;
+          particles.rect(particleIndex[p].curX, particleIndex[p].curY, sizeDecreaseer, sizeDecreaseer);
+          particles.fillStyle = color;
+          fire.globalAlpha = 1;
+          particles.fill();
+        }
+      }
+      var executerOfAnim = setInterval(executeAnimation, 10);
+    }
+
+var ball = bcanv.getContext("2d");
+var playerPositionY = 100;
+var playerVelocityY = 0;
+var input = false;
+
+function drawCircle(x, y, rot, color) {
+  bcanv.width = canvasWidths;
+  ball.translate(x, y);
+  ball.rotate(playerRotation * Math.PI / 180)
+  ball.beginPath();
+  ball.moveTo(0, -40);
+  ball.lineTo(-15, -20);
+  ball.lineTo(15, -20);
+  ball.closePath();
+  ball.moveTo(-15, 20);
+  ball.lineTo(-15, 30);
+  ball.lineTo(-5, 20);
+  ball.closePath();
+  ball.moveTo(15, 20);
+  ball.lineTo(15, 30);
+  ball.lineTo(5, 20);
+  ball.closePath();
+  // ball.rect(-2.5, 20.1, 5, 10)
+  ball.rect(-15, -20, 30, 40);
+  ball.fillStyle = color;
+  ball.fill();
+}
+
+  var gameStarted = 5;
+  var fireParticlesX;
+  var fireParticlesY;
+  var canUseFire = true;
+
+function fireMove(col) {
+
+  var exhaust = []
+  for (var z = 0; z < 60; z++) {
+    exhaust[z] = {'posX':playerPositionX, 'posY':playerPositionY, 'velX':(-playerVelocityX), 'velY':0.0013, 'fade':1, 'col':`rgb(${255}, ${0}, ${0})`, 'redVal': 255, 'nonRed':0, 'reset':true};
+  }
+  var fakeLoop = 0
+  var timeOffsetter = 0
+
+  function moveTheFire() {////// CREATES THE FIRE PARTICLES
+
+    if (gameStarted == 1 || input == true || fuelTrack < 2 || tempTrack > 198.5 || playerDead == true) {
+      if (exhaust[fakeLoop].reset == true && input == true || exhaust[fakeLoop].reset == true && gameStarted == 1) {
+        var randomManipulator = Math.random(1);
+        var randomManipulatorX = (Math.random(3)-1)/6;
+        var moreRandomness = Math.random(3);
+        var evenMoreRandomness = Math.random(3);
+        var direction = 0;
+        var xVelocity = 0.9
+        xVelocity = -1*(xVelocity*(playerRotation/90))
+        if (playerRotation>=0) {
+          var yAdd = ((90-playerRotation)/4);
+          var xAdd = ((90-playerRotation)/4)-25;
+          direction = -1;
+
+        }
+        else if (playerRotation<0) {
+          var yAdd = ((90-(-1*playerRotation))/4);
+          var xAdd = -(((90-(-1*playerRotation))/4)-25);
+          direction = 1;
+        }
+        if (gameStarted == 1) {
+          exhaust[fakeLoop] = {'posX':playerPositionX+xAdd+evenMoreRandomness, 'posY':playerPositionY+yAdd+moreRandomness, 'velX':(-playerVelocityX)+randomManipulatorX, 'velY':0.17+randomManipulator, 'fade':1, 'col':`rgb(${255}, ${0}, ${0})`, 'exponential': 0.03, 'nonRed':0, 'reset':false};
+        }
+        else {
+          exhaust[fakeLoop] = {'posX':playerPositionX+xAdd+evenMoreRandomness, 'posY':playerPositionY+yAdd+moreRandomness, 'velX':((xVelocity)+randomManipulatorX), 'velY':0.1+randomManipulator+fireParticlesY, 'fade':1, 'col':`rgb(${255}, ${0}, ${0})`, 'exponential': 0.03, 'nonRed':0, 'reset':false};
+
+        }
+
+      }
+    }
+
+    fcanv.width = canvasWidths;
+    var completeAllParticlesFall = 0;
+    for (var z = 0; z < 60; z++) {
+      var goundLevel = objAboveGround(exhaust[z].posX, exhaust[z].posY, ticker, scroll);
+      if (exhaust[z].reset == false) {
+        exhaust[z].posX = exhaust[z].posX + exhaust[z].velX;
+        if (exhaust[z].posY>goundLevel-2) {
+          exhaust[z].velY = -1.03*exhaust[z].velY;
+          exhaust[z].velX = (Math.random() * 3)-1;
+        }
+        exhaust[z].posY = exhaust[z].posY + exhaust[z].velY;
+        exhaust[z].exponential = exhaust[z].exponential - 0.0003
+        if (exhaust[z].exponential<0.005) {
+          exhaust[z].exponential = 0.005;
+        }
+        exhaust[z].fade = exhaust[z].fade - exhaust[z].exponential;
+        fire.rect(exhaust[z].posX, exhaust[z].posY, 4.5, 4.5)
+        var trueFade = exhaust[z].fade
+        fire.fillStyle = `rgb(${255}, ${(255*(1-trueFade))/2}, ${0})`;
+        fire.globalAlpha = trueFade;
+        fire.closePath();
+        fire.fill();
+      }
+      if(exhaust[z].fade<0.01) {
+        exhaust[z].reset = true;
+        if (gameStarted!=1) {
+          completeAllParticlesFall++
+      }
+        if (completeAllParticlesFall>=60) {
+          gameStarted = 4;
+        }
+      }
+    }
+
+
+    fakeLoop++;
+
+    if (fakeLoop>=60) {
+      fakeLoop = 0;
+    }
+
+    if (gameStarted != 2) {
+      if (gameStarted == 1 && gameStarted != 3) {
+        if (scroll>=blockSize*ticker) {
+          ticker = ticker + 1;
+        }
+        if ((scroll/2)>=blockSize*starTicker) {
+          starTicker = starTicker + 1;
+        }
+        scroll = scroll + playerVelocityX;
+      }
+    }
+
+    if (input == false && gameStarted == 4 || gameStarted == 2 || playerDead == true ) {
+      clearInterval(moveInitiate);
+      gameStarted = 3;
+      fcanv.width = canvasWidths;
+      canUseFire = true;
+    }
+  }
+  var moveInitiate = setInterval(moveTheFire, 10)
+}
+
+function shipColorAnim() {
+
+  var hueShifter = 255;
+  var shiftBack = false;
+  delayerForColor = 0;
+  function executHueShift() {
+    if (hueShifter > 1 && shiftBack == false) {
+      if (hueShifter>1) {
+        hueShifter = hueShifter - 51;
+      }
+      if (hueShifter < 1) {
+        hueShifter = 0;
+      }
+      if (hueShifter <= 1) {
+        shiftBack = true;
+      }
+    }
+    if (hueShifter == 0) {
+      delayerForColor++
+    }
+    if (hueShifter < 255 && delayerForColor > 10) {
+      hueShifter = hueShifter + 5;
+      if (hueShifter >=255) {
+        hueShifter = 255;
+      }
+    }
+    spaceShipColor = `rgb(${255}, ${hueShifter}, ${hueShifter})`;
+    if (hueShifter >= 255 && shiftBack == true) {
+      clearInterval(terminationPower);
+    }
+  }
+  var terminationPower = setInterval(executHueShift, 20);
+}
+
+var spaceShipColor = `white`;
+
+drawCircle(playerPositionX, playerPositionY, playerRotation, spaceShipColor);
+
+  function calcBulletVelocety(gunRot, power, select) {
+    var ratioCreate = 0;
+    var xVelBullet = 0;
+    var yVelBullet = 0;
+    //direction system is like a 4 quaderant coordinate system
+    var direction = 1;
+    var directiony = 1;
+    if (gunRot>=1 && gunRot<1.5) {
+      ratioCreate = (gunRot-1)*2;
+      direction = -1;
+      directiony = 1;
+    }
+    else if (gunRot>=1.5 && gunRot<2) {
+      ratioCreate = (0.5-(gunRot-1.5))*2;
+      direction = 1;
+      directiony = 1;
+    }
+    else if (gunRot>=0 && gunRot<0.5) {
+      ratioCreate = (gunRot)*2;
+      direction = 1;
+      directiony = -1;
+    }
+    else if (gunRot>=0.5 && gunRot<1) {
+      ratioCreate = (0.5-(gunRot-0.5))*2;
+      direction = -1;
+      directiony = -1;
+    }
+    yVelBullet = power * ratioCreate;
+    xVelBullet = power - yVelBullet;
+
+    if (select == "x") {
+      return xVelBullet*direction;
+    }
+    else if (select == "y") {
+      return yVelBullet*directiony;
+    }
+
+  }
+
+  bullets = [];
+  //{'xPos':0, 'yPos':0, 'xVel':0, 'yVel':0, 'lifeSpan':350}
+  function bulletInstantiate(gunRot, enemyX, enemyY) {
+    bullets.push({'xPos':enemyX, 'yPos':enemyY-9, 'xVel':calcBulletVelocety(gunRot, 9, 'x'), 'yVel':calcBulletVelocety(gunRot, 9, 'y')*-1, 'lifeSpan':450});
+  }
+
+  function energyUpInstantiate(relX, relY, size) {
+    ////// Must tediously draw the graphic through code when using canvas
+    var eletricityObj = new Path2D();
+    eletricityObj.moveTo(relX, relY);
+    eletricityObj.lineTo(relX+(3*size), relY-(8*size));
+    eletricityObj.lineTo(relX+(size*0.5), relY-(8.25*size));
+    eletricityObj.lineTo(relX+(1*size), relY-(11*size));
+    eletricityObj.lineTo(relX-(2*size), relY-(11*size));
+    eletricityObj.lineTo(relX-(1.5*size), relY-(6.5*size));
+    eletricityObj.lineTo(relX+(0.5*size), relY-(6*size));
+    eletricityObj.lineTo(relX, relY);
+    eletricityObj.closePath();
+    eletricityObj.fillStyle = "#ffd82d";
+    eletricityObj.strokeStyle = "#e08743"
+    enemies.fill(eletricityObj);
+    enemies.stroke(eletricityObj);
+  }
+
+var enemiesHold = [];
+var trackOfEnemies = [];
+
+  function drawEnemy(x, y, id, reference) {
+
+    var calcOrNot = trackOfEnemies.indexOf(id);
+
+    if (calcOrNot < 0) {
+      var leftEdge = lineBase-test[id-1]
+      var rightEdge = lineBase-test[id+1]
+      var trueY = lineBase-test[id];
+      var leftAngle = 1+((((Math.atan((trueY-leftEdge)/(blockSize)))*180/Math.PI)/90)/2)
+      var rightAngle = 2+((((Math.atan((trueY-rightEdge)/(blockSize)))*180/Math.PI)/90)/-2)
+      if (rightAngle>2) {
+        rightAngle -= 2;
+      }
+      var leftEdge2 = lineBase-test[id-2]
+      var rightEdge2 = lineBase-test[id+2]
+      var leftAngleExtended = 1+((((Math.atan((trueY-leftEdge2)/(blockSize*2)))*180/Math.PI)/90)/2)
+      var rightAngleExtended = 2+((((Math.atan((trueY-rightEdge2)/(blockSize*2)))*180/Math.PI)/90)/-2)
+      if (rightAngleExtended>2) {
+        rightAngleExtended -=2
+      }
+
+      enemiesHold.push({
+        'enemyID':id,
+        'leftAngle':leftAngle,
+        'rightAngle':rightAngle,
+        'leftAngleExtended':leftAngleExtended,
+        'rightAngleExtended':rightAngleExtended,
+        'gunRotation':1.5,
+        'alive':true,
+        'bulletCoolDown':0,
+        'canShoot':true,
+      });
+      trackOfEnemies.push(id);
+    }
+
+
+    var gunRefX = (x-scroll)-playerPositionX-(playerVelocityX*55);
+    var gunRefY = y - playerPositionY-(playerVelocityY*25);
+
+    if (gunRefY<0) {
+      var gunAngle = (Math.atan(gunRefY/gunRefX))*180/Math.PI
+      ///gunAngle is still in degree form at this point
+      if (gunAngle<0) {
+        gunAngle = 1+((gunAngle/90)/2)
+      }
+      else {
+        gunAngle = (gunAngle/90)/2
+      }
+    }
+
+    else {
+      // gets angle in degrees then converts them to the 0-2 PI form that arc uses
+      var gunAngle = 1.5+(((-1*((Math.atan(gunRefX/gunRefY))*180/Math.PI))/90)/2)
+    }
+
+    var checkGunAngleRight = gunAngle+0.075;
+    if (checkGunAngleRight>2) {
+      checkGunAngleRight-=2
+    }
+    var checkGunAngleLeft = gunAngle-0.075;
+
+///////// ALL THE CONDITIONS THAT PREVENT THE GUN FROM ROTATING ||||| could have likely made an if statement with opposite conditions and avoided an else statement, but both cases have same result
+    if (checkGunAngleRight>=enemiesHold[reference].rightAngle && enemiesHold[reference].rightAngle>=0.5 ||
+        checkGunAngleRight>=enemiesHold[reference].rightAngleExtended && enemiesHold[reference].rightAngleExtended>=0.5 ||
+        checkGunAngleLeft<=enemiesHold[reference].leftAngle && checkGunAngleLeft > 0.5 ||
+        checkGunAngleLeft<=enemiesHold[reference].leftAngleExtended && checkGunAngleLeft > 0.5 ||
+        checkGunAngleRight>=enemiesHold[reference].rightAngle && enemiesHold[reference].rightAngle>=0 && enemiesHold[reference].rightAngle<=0.5 && checkGunAngleRight<0.5 ||
+        checkGunAngleRight>=enemiesHold[reference].rightAngleExtended && enemiesHold[reference].rightAngleExtended>=0 && enemiesHold[reference].rightAngleExtended<=0.5 && checkGunAngleRight<0.5 ||
+        checkGunAngleRight<=enemiesHold[reference].rightAngle && checkGunAngleRight<0.5 && enemiesHold[reference].rightAngle>0.5 ||
+        checkGunAngleRight<=enemiesHold[reference].rightAngleExtended && checkGunAngleRight<0.5 && enemiesHold[reference].rightAngleExtended>0.5) {
+      enemiesHold[reference].gunRotation = enemiesHold[reference].gunRotation;
+    }
+    else {
+      enemiesHold[reference].gunRotation = gunAngle;
+    }
+
+
+    /// hecktic if statements due to the 0-2PI method of arc()
+    var rightVisualGunLine = enemiesHold[reference].gunRotation+0.075;
+    var leftVisualGunLine = enemiesHold[reference].gunRotation-0.075;
+    if (leftVisualGunLine<0) {
+      leftVisualGunLine+=2;
+    }
+    if (rightVisualGunLine>2) {
+      rightVisualGunLine-=2;
+    }
+
+    if (enemiesHold[reference] != null && enemiesHold[reference].alive == true) {
+      enemies.moveTo(x, y);
+      enemies.arc(x, y, blockSize*2, leftVisualGunLine*Math.PI, rightVisualGunLine*Math.PI)
+      enemies.lineTo(x, y);
+      enemies.arc(x, y, blockSize, enemiesHold[reference].leftAngle*Math.PI, enemiesHold[reference].rightAngle*Math.PI);
+      enemies.lineTo(x, y);
+      enemies.fillStyle = "rgba(50, 100, 255, 1)";
+      enemies.closePath();
+      enemies.lineWidth = 3;
+      enemies.strokeStyle = "rgba(185, 150, 255, 0.5)";
+      enemies.stroke();
+      enemies.fill();
+
+    }
+    else {
+
+    }
+
+    enemiesHold[reference].bulletCoolDown += 1;
+    if (enemiesHold[reference].canShoot == false) {
+      if (enemiesHold[reference].bulletCoolDown>350) {
+        enemiesHold[reference].canShoot = true;
+      }
+    }
+
+    else if (enemiesHold[reference].canShoot == true) {
+      bulletInstantiate(enemiesHold[reference].gunRotation, x, y)
+
+      enemiesHold[reference].bulletCoolDown = 0;
+      enemiesHold[reference].canShoot = false;
+      //enemiesHold[reference].gunRotation
+    }
+    // console.log(objAboveGround(2000, playerPositionY, ticker, scroll, 1))
+
+  }
+
+var gravityMult = 0.004
+var contactMade = false;
+var fuelTrack = 10000;
+var healthTrack = 150;
+var tempTrack = 100;
+var distTrack = 0;
+var beginningDist = 0;
+var toggleExplosion = true;
+
+var starty = playerPositionY;
+var startx = playerPositionX;
+
+var playerStarted = false;
+var curvedCoolApply = 0;
+var curvedHeatApply = 0;
+var delayAction = 0
+
+var binarySwitch = 0;
+var timeDelayCounter = 0;
+var colorSwitch = "white";
+
+var removeEnemy = 0;
+
+var playerInvinsibility = 0;
+
+function gameUpdate() {
+  function updateContents() {
+
+    // \/\/\/ creates blinking effect
+      if (binarySwitch == 0) {
+        timeDelayCounter++
+        if (timeDelayCounter >= 20) {
+          colorSwitch = "#4c4c4c"//#72ff7e just in case color
+          binarySwitch = 1;
+          timeDelayCounter = 0;
+        }
+      }
+      else if (binarySwitch == 1){
+        timeDelayCounter++
+        if (timeDelayCounter >= 20) {
+          colorSwitch = "white"
+          binarySwitch = 0;
+          timeDelayCounter = 0;
+        }
+      }
+      // /\/\/\
+      var shouldRefresh = true
+      var enemiesOnScreen = -1;
+
+      //double nested Ifs because compiler was freaking out for some reason with && argument
+      if (enemiesHold[0] != null) {
+        if (enemiesHold[0].enemyID < ticker-2) {
+          enemiesHold.shift();
+        }
+      }
+      ecanv.width = canvasWidths;
+      enemies.translate(0-scroll, 0);
+
+    for(i=0+ticker-2; i<=blockAmount+ticker;++i) {
+
+        if (landPositions[i] == 1) {
+          createLineBlock(lineBase - test[i-1], lineBase - test[i], colorSwitch) //light green
+        }
+        else if(landPositions[i] == 0) {
+          createLineBlock(lineBase - test[i-1], lineBase - test[i], "white")
+        }
+        else {
+          createLineBlock(lineBase - test[i-1], lineBase - test[i], "white")
+        }
+
+        if (enemyPositions[i] == 1 && landPositions[i] == 0) {
+          // if (shouldRefresh == true) {
+          //   ecanv.width = canvasWidths;
+          //
+          //   shouldRefresh = false;
+          // }
+          enemiesOnScreen++;
+          drawEnemy(i * blockSize, lineBase - test[i], i, enemiesOnScreen);
+
+        }
+      }
+
+    for(i=0+starTicker-1; i<=blockAmount+starTicker;++i) {
+      drawStars(i * blockSize, starPos[i]);
+    }
+    //{'xPos':0, 'yPos':0, 'xVel':0, 'yVel':0, 'lifeSpan':350}
+    for (var q = 0; q < bullets.length; q++) {
+      if (bullets[q] != null) {
+        bullets[q].yVel = bullets[q].yVel + 0.01;//effects of gravity
+        bullets[q].xPos = bullets[q].xPos + bullets[q].xVel;
+        bullets[q].yPos = bullets[q].yPos + bullets[q].yVel;
+        enemies.moveTo(bullets[q].xPos, bullets[q].yPos);
+        enemies.arc(bullets[q].xPos, bullets[q].yPos, 7, 0, 2*Math.PI);
+        if (objAboveGround(bullets[q].xPos-scroll, 0, ticker, scroll, 1) <= bullets[q].yPos+7) {
+          ////// Tediouse conversions to 360* scale. Best method I could figure for getting realistic bounces.
+          //It finds the perpendicular of the terrain unit's ground and mirrors the entrt angle over the perpendiclular and then redistributes
+          //the velocities of x and y according to the ratio. Planning to recylce the function that gave velocity based on gun rotation.
+          // var zone = objAboveGround(bullets[q].xPos-scroll, 0, ticker, scroll, 2)
+          var zone = Math.trunc(bullets[q].xPos/blockSize);
+          var zoneStart = test[zone];
+          var zoneEnd = test[zone+1];
+          var collectedPower = Math.abs(bullets[q].yVel) + Math.abs(bullets[q].xVel);
+          var ratioOfAngle = (Math.atan((zoneStart-zoneEnd)/(blockSize)))*180/Math.PI;
+          if (ratioOfAngle>=0) {
+            var bottomOfAngle = ratioOfAngle;
+            var topOfAngle = bottomOfAngle + 180;
+          }
+          else {
+            var bottomOfAngle = 360+ratioOfAngle;
+            var topOfAngle = bottomOfAngle-180;
+          }
+
+          if (bullets[q].yVel>=0) {
+            var falling = true;
+            var ballTrajectory = (Math.atan(bullets[q].xVel/bullets[q].yVel))*180/Math.PI;
+            if (ballTrajectory>=0) {
+              var ballAngle = 180-ballTrajectory;
+            }
+            else {
+              var ballAngle = 180+Math.abs(ballTrajectory)
+            }
+            // x=o y=a
+          }
+          else {
+            var falling = false;
+            var ballTrajectory = (Math.atan(-bullets[q].yVel/bullets[q].xVel))*180/Math.PI;
+            if (ballTrajectory>=0) {
+              var ballAngle = 90-ballTrajectory;
+            }
+            else {
+              var ballAngle = 270 + Math.abs(ballTrajectory);
+            }
+            // y=o x=a
+          }
+          /////////
+
+          var perpendicularAngle = (bottomOfAngle+topOfAngle)/2;
+          if (ballAngle>= perpendicularAngle) {
+            var newExitAngle = perpendicularAngle-(ballAngle-perpendicularAngle);
+          }
+          else {
+            var newExitAngle = perpendicularAngle+(perpendicularAngle-ballAngle);
+          }
+          //calcBulletVelocety(gunRot, 6, 'x')
+          var rotated360DegScaleBy90 = newExitAngle + 90;
+          if (rotated360DegScaleBy90>360) {
+            rotated360DegScaleBy90-=360
+          }
+          var finalAngle = (rotated360DegScaleBy90/360)*2;//Converts to the arc() 0-2PI scale that my function used
+          bullets[q].yPos = bullets[q].yPos-1;
+          bullets[q].xVel = calcBulletVelocety(finalAngle, collectedPower, 'x');
+          bullets[q].yVel = calcBulletVelocety(finalAngle, collectedPower, 'y');
+        }
+
+        if (bullets[q].yPos > playerPositionY-25 && bullets[q].yPos < playerPositionY+26 &&
+           (bullets[q].xPos-scroll) > playerPositionX-20 && (bullets[q].xPos-scroll) < playerPositionX+20 &&
+            playerInvinsibility <=0 && playerStarted == true) {
+          healthTrack -= 50;
+          shipColorAnim("red");
+          animateParticles("rgba(50, 100, 255, 1)")
+          playerInvinsibility = 17;
+          bullets[q].lifeSpan = 0;
+        }
+
+        bullets[q].lifeSpan -= 1;
+        if (bullets[q].lifeSpan<=0) {
+          bullets.splice(q, 1);
+        }
+        enemies.stroke()
+        enemies.fill()
+      }
+    }
+
+    playerInvinsibility--;
+
+    //Window Expansion
+    windowWidth = window.innerWidth;
+    if (windowWidth >= 1000) {
+      blockAmount = Math.ceil(windowWidth/blockSize)
+      canvasWidths = (blockSize*blockAmount) - (blockSize*3);
+      screenOfGame.style.width = `${windowWidth}px`
+    }
+
+    if (playerStarted == true) {
+      delayAction++
+      var groundHeight = objAboveGround(playerPositionX, playerPositionY, ticker, scroll, 1);
+      var zoneCount = objAboveGround(playerPositionX, playerPositionY, ticker, scroll, 2);
+      var zoneCountLeft = objAboveGround(playerPositionX, playerPositionY, ticker, scroll, 3);
+      var zoneCountRight = objAboveGround(playerPositionX, playerPositionY, ticker, scroll, 4);
+      playerVelocityY = playerVelocityY + gravityMult;
+
+      if (playerPositionX>=canv.width*0.75) {
+        playerPositionX = playerPositionX - playerVelocityX;
+        scroll = scroll + playerVelocityX;
+      }
+      if (scroll>=blockSize*ticker) {
+        ticker = ticker + 1;
+      }
+      if ((scroll/2)>=blockSize*starTicker) {
+        starTicker = starTicker + 1;
+      }
+
+      ///// TRUE INPUT
+
+    if (input == true && fuelTrack > 0 && tempTrack < 200 && delayAction>3) {
+      if (canUseFire == true) {
+        fireMove("red");
+        canUseFire = false;
+      }
+      if (curvedHeatApply < 0) {
+        curvedHeatApply = curvedHeatApply + 0.003;
+      }
+      fuelTrack = fuelTrack - 1;
+      curvedCoolApply = 0;
+      curvedHeatApply = curvedHeatApply + 0.00006;
+      tempTrack = tempTrack + curvedHeatApply;
+
+      fireParticlesY = (0.007*yMult);
+      fireParticlesX = (0.007*xMult);
+      playerVelocityY = playerVelocityY - (0.0095*yMult);
+      playerVelocityX = playerVelocityX - (0.0095*xMult);
+    }
+
+
+    //// FALSE INPUT
+
+    if (input == false) {
+      if (contactMade == false && tempTrack > 50) {
+        if (curvedHeatApply > 0) {
+          curvedHeatApply = curvedHeatApply - 0.003;
+        }
+        curvedCoolApply = curvedCoolApply - 0.00003;
+        tempTrack = tempTrack + curvedCoolApply;
+      }
+      fade = 0;
+    }
+    var velHolder = 0;
+    if (playerPositionY >= groundHeight - 30.1) {
+      velHolder = playerVelocityY;
+      playerVelocityY = -playerVelocityY * 0.25
+      playerPositionY = groundHeight - 30.1;
+    }
+///
+    if (playerPositionY >= groundHeight - 30.1 && playerPositionY <= groundHeight - 30.001) {
+
+      if (playerVelocityX > 0) {
+        playerVelocityX = playerVelocityX - 0.02;
+      }
+      else if (playerVelocityX < 0) {
+        playerVelocityX = playerVelocityX + 0.02;
+      }
+
+      contactMade = true;
+      if (contactMade == true && playerRotation > 4 || contactMade == true && playerRotation < -4 || contactMade == true && velHolder > 0.75 || contactMade == true && landPositions[zoneCount+1] == 0 || contactMade == true && landPositions[zoneCountLeft+1] == 0 || contactMade == true && landPositions[zoneCountRight+1] == 0) {
+        playerDead = true;
+        fuelTrack = 0;
+        tempTrack = 0;
+        healthTrack = 0;
+      }
+      else if (contactMade == true && velHolder > 0.32) {
+        healthTrack = healthTrack - Math.floor((10*velHolder)*4);
+        shipColorAnim(spaceShipColor);
+      }
+
+    }
+
+    else if(playerPositionY <= groundHeight - 31) {
+      contactMade = false;
+    }
+///
+
+if (healthTrack<=0) {
+  playerDead = true;
+  fuelTrack = 0;
+  tempTrack = 0;
+  healthTrack == 0
+  drawStats(fuelTrack, tempHolder, distTrack, healthTrack);
+}
+    //// Rot Inputs
+    if (inputRotLeft == true && contactMade == false) {
+      if (playerRotation > -90) {
+        playerRotation--
+      }
+    }
+    if (inputRotRight == true && contactMade == false) {
+      if (playerRotation < 90) {
+        playerRotation++
+      }
+    }
+
+    if (contactMade == true) {
+      if (tempTrack > 50) {
+        curvedCoolApply = curvedCoolApply - 0.00015;
+        tempTrack = tempTrack + curvedCoolApply;
+      }
+      else {
+        curvedCoolApply = 0;
+        tempTrack = tempTrack - 0.0003
+      }
+    }
+
+    // Math that moves the player at different x and y velocities that makes sense with the rotation
+    if (playerRotation > 0) {
+      if (playerRotation < 45) {
+        yMult = 1 - playerRotation/90
+        xMult = -(playerRotation/90)
+      }
+      // more extreme rotation
+      else if (playerRotation > 45) {
+        yMult = 1 - playerRotation/90
+        xMult = -(playerRotation/90)
+      }
+    }
+    else if (playerRotation < 0) {
+      if (playerRotation >= -45) {
+        yMult = 1 + playerRotation/90
+        xMult = (1 + playerRotation/90)
+      }
+      //more extreme rotation
+      else if (playerRotation < -45) {
+        yMult = 1 + playerRotation/90
+        xMult = -(playerRotation/90)
+      }
+    }
+    else {
+      yMult = 1
+      xMult = 0
+    }
+    // Air resistence
+    if (playerVelocityX > 0) {
+      playerVelocityX = playerVelocityX - 0.00003
+    }
+    else if (playerVelocityX < 0) {
+      playerVelocityX = playerVelocityX + 0.00003
+    }
+
+    if (beginningDist < canv.width*0.75) {
+      if (playerVelocityX > 0.01 && contactMade == false) {
+        beginningDist = beginningDist + playerVelocityX;
+        distTrack = beginningDist;
+      }
+    }
+    else {
+      if (playerVelocityX > 0.01 && contactMade == false) {
+        beginningDist = canv.width*0.75 + 1;
+        distTrack = beginningDist + scroll - scrollOffsetTitleScreen;
+      }
+    }
+
+    //Constraints on going backwords
+    if (playerPositionX < 20 && playerVelocityX < 0) {
+      playerVelocityX = playerVelocityX/10
+    }
+    // makes stats see through when player goes near
+    if (playerPositionX < 370 && playerPositionY < 165) {
+      statLeft.style.opacity = 0.6;
+    }
+    else {
+      statLeft.style.opacity = 1;
+    }
+
+    distTrack = Math.ceil(distTrack*100)/100
+    var tempHolder = Math.ceil(tempTrack*100)/100
+    drawStats(fuelTrack, tempHolder, distTrack, healthTrack);
+    if (playerDead == false) {
+      drawCircle(playerPositionX, playerPositionY, playerRotation, spaceShipColor)
+    }
+    else if (playerDead == true) {
+      bcanv.width = canvasWidths;
+      gameOptions.style.opacity = "1";
+      gameOptions.style.color = "red";
+      gameOptions.style.zIndex = 700;
+      startButton.innerHTML = "Play Again"
+      titleInformation.style.color = "red";
+      titleInformation.innerHTML = "Game Over";
+      if (toggleExplosion == true) {
+        recordOfScores.push({'rank':2, 'distance':`${distTrack}m`, 'username':currentUser});
+        animateParticles("white")
+        toggleExplosion = false;
+      }
+
+      // startButton.style.zIndex = 1000;
+      // startButton.classList.replace("startButton", "gameOverButton")
+      // startButton.innerHTML = "Play Again";
+      playerStarted = false;
+
+      playerVelocityX = 0;
+    }
+    playerPositionY = playerPositionY + playerVelocityY;
+    playerPositionX = playerPositionX + playerVelocityX;
+    }
+    // energyUpInstantiate(400+scroll, 400, 5);
+  }
+  var masterUpdate = setInterval(updateContents, 1000/60);
+}
+
+function runFunc() {
+  currentUser = userInput.value;
+  playerStarted = true;
+  gameStarted = 2;
+  drawTitleScreen();
+  scrollOffsetTitleScreen = scroll;
+  animateParticles("#e2320b")
+  toggleExplosion = true;
+  groundHeight = startx;
+  playerPositionY = starty
+  if (playerDead == true) {
+    generateArrays();
+    playerDead = false;
+    playerPositionX = windowWidth/2;
+    playerVelocityX = 0.4;
+    fuelTrack = 10000;
+    healthTrack = 150;
+    tempTrack = 100;
+    distTrack = 0;
+
+  }
+}
+
+leaderBoard.addEventListener("click", function(){
+  leaderBoardDisplay.style.opacity = 1;
+  leaderBoardDisplay.style.zIndex = 1000;
+  titleScreen.style.zIndex = -700;
+  titleScreen.style.opacity = 0;
+
+});
+
+backButton.addEventListener("click", function(){
+  leaderBoardDisplay.style.opacity = 0;
+  leaderBoardDisplay.style.zIndex = -10000;
+  titleScreen.style.zIndex = 700;
+  titleScreen.style.opacity = 1;
+
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  if (gameStarted == 5) {
+    generateArrays();
+    gameStarted = 1;
+    for (var m = 0; m < manualCanvasArr.length; m++) {
+      manualCanvasArr[m].width = canvasWidths;
+    }
+    fireMove("yellow")
+    drawCircle(playerPositionX, playerPositionY, playerRotation, spaceShipColor);
+    gameUpdate();
+
+  }
+
+});
+
+function groupOfGameOverEvents() {
+
+}
+
+var inputRotRight
+var inputRotLeft
+kd.W.down(function () {
+input = true;
+});
+kd.W.up(function () {
+ input = false;
+});
+kd.A.down(function () {
+  inputRotLeft = true;
+});
+kd.A.up(function () {
+ inputRotLeft = false;
+});
+kd.D.down(function () {
+  inputRotRight = true;
+});
+kd.D.up(function () {
+  inputRotRight = false;
+});
+// This update loop is the heartbeat of Keydrown
+kd.run(function () {
+  kd.tick();
+});
+  </script>
+</html>
