@@ -1,0 +1,82 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sketch Canvas</title>
+    <link rel="stylesheet" href="sketch.css">
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="openingContainter">
+        <img style="width: 350px; height: 350px;" src="./second-jbcaf-logo.png" alt="">  
+    </div>
+    <div id="navBar">
+        <img id="logo" src="second-jbcaf-logo.png" alt="">
+        <div id="limitContainer">
+            <div id="menuBar"></div>
+            <div id="actualMenu"></div>
+            <canvas id="menuCanvas"></canvas>
+            <div id="menuContent">
+                <div class="menuElement" style="grid-row: 2;">About</div>
+                <div class="menuElement" style="grid-row: 3;">Tools</div>
+                <div class="menuElement" style="grid-row: 4;">Work</div>
+                <div class="menuElement" style="grid-row: 5;">Contact</div>
+            </div>
+        </div>
+    </div>
+    <div id="aboutHeader" style="height: 75px; margin-top: 100px;" >
+    </div>
+    <div id="mainAboutArea">
+        <div id="parentImageHolder">
+            <div id="imageContent">
+            </div>
+            <div id="imageFadeInAnimator" >
+            </div>
+        </div>
+        <div id="parentTextHolder">
+            <div id="textHolder">
+                <p id="aboutText" >Lorem Ipsum daf adfa ddsf dasf dsf asdf asd fasd sd fsd fasd fasdf asdf ds fasdf ads fsdaf asd fasdf asdf asd asdf adsf sdf hkjsdhf jsdj fhdsj khfh jdsh fjkdsh fjdsh fjksdh fjkhdsfjk hdjh kfahsdkjf hsadkjh fasdhf kjhasdj fhsda jhasd hk</p>
+            </div>
+            <div id="imageFadeInAnimatorText" >
+            </div>
+        </div>
+    </div>
+    <div id="toolsHeader" style="height: 100px;" >
+    </div>
+    <div id="mainToolsArea">
+        <div id="allEncumpasingCont">
+                <div id="toolsContainer" class="">
+                    <div id="containerBackground">
+                        <div id="informationArea">
+                            <div id="exitToolsInfo"><div id="xStyleCloseTools">+</div></div>
+                            <div id="toolsInfoTitle"><p id="infoTitle" style="margin: 0 0 -10px 0; padding: 0;"></p></div> <div id="toolsInfoCategor"><p id="infoCategory" style="margin: 0 0 0 0; padding: 0;"></p></div>
+                            <div id="infoContentArea"><p id="infoContent"></p></div>
+                            <div id="toolsInfoProf"><p id="profInfo"></p></div>
+                        </div>
+                    </div>
+                    <div class="toolsElement"><div id="gifElem1" class="gifs"><p id="gifTitle1" class="innerGifs">Blender</p></div>          </div>
+                    <div class="toolsElement"><div id="gifElem2" class="gifs"><p id="gifTitle2" class="innerGifs">HTML</p></div>             </div>
+                    <div class="toolsElement"><div id="gifElem3" class="gifs"><p id="gifTitle3" class="innerGifs">React JS</p></div>         </div>
+                    <div class="toolsElement"><div id="gifElem4" class="gifs"><p id="gifTitle4" class="innerGifs">Node JS</p></div>          </div>
+                    <div class="toolsElement"><div id="gifElem5" class="gifs"><p id="gifTitle5" class="innerGifs">Adobe Illustrator</p></div></div>
+                    <div class="toolsElement"><div id="gifElem6" class="gifs"><p id="gifTitle6" class="innerGifs">CSS</p></div>              </div>
+                    <div class="toolsElement"><div id="gifElem7" class="gifs"></div>                                                         </div>
+                    <div class="toolsElement"><div id="gifElem8" class="gifs"><p id="gifTitle7" class="innerGifs">JavaScript</p></div>       </div>
+                </div>
+            </div>
+    </div>
+    <div id="contactHeader" style="height: 100px;" >
+    </div>
+    <div id="contactAreaContainer">
+            <div id="contactContent">
+                <input style="margin-top: 10%;" placeholder="email" type="text" class="contactInput generalContactForm" name="" id="emailTextInput">
+                <input placeholder="password" type="text" class="contactInput generalContactForm" name="" id="passwordTextInput">
+                <input placeholder="name" type="text" class="contactInput generalContactForm" name="" id="nameTextInput">
+                <textarea placeholder="message" name="" class="contactText generalContactForm" id="messageTextArea" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+    <script src="index.js"></script>
+</body>
+</html>
