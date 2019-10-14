@@ -87,6 +87,8 @@
             this.positionY += this.velocityY;
             this.color = `rgb(255, ${this.variableColor}, ${this.variableColor})`
             ////////
+        }
+        render() {
             menuCanvReference.beginPath();
             menuCanvReference.arc(Dot.offsetX+this.positionX, Dot.offsetY+this.positionY, this.radius, 0, 2*Math.PI);
             menuCanvReference.fillStyle = this.color;
@@ -407,11 +409,24 @@ function triColorText(content, divToInsertIn) {
 
     });
 
-// START OF INTERVAL
-    setInterval(() => {
+    window.addEventListener('resize', () => {
         //reset/adjust canvas size
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        
+        menuCanvas.width = window.innerHeight/2;
+        menuCanvas.height = window.innerHeight/2;
+
+        for (let i = 0; i < Dot.quantity; i ++) {
+            dots[i].render()
+        }
+    })
+
+// START OF INTERVAL
+    setInterval(() => {
+        //reset/adjust canvas size
+        canv.clearRect(0, 0, canvas.width, canvas.height);
+
         // set preference on dot size/space
         let space = 40;
         let dotWidth = 2.5;
@@ -439,8 +454,7 @@ function triColorText(content, divToInsertIn) {
         sideMove += ratioW;
         if (Math.abs(sideMove)>=space) {sideMove = 0;}
 
-        menuCanvas.width = window.innerHeight/2;
-        menuCanvas.height = window.innerHeight/2;
+        menuCanvReference.clearRect(0, 0, menuCanvas.width, menuCanvas.height);
         Dot.offsetX = menuCanvas.width-50;
         Dot.offsetY = 50;
 
@@ -456,6 +470,7 @@ function triColorText(content, divToInsertIn) {
                 dots[i].turnRadius = 20;
             }
             dots[i].move();
+            dots[i].render()
         }
     }, 1000/30)
 //END OF INTERVAL
