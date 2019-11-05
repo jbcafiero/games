@@ -9,20 +9,31 @@
 </head>
 <body>
     <div id="openingContainter">
-        <canvas id="canvas"></canvas>
-        <img style="width: 350px; height: 350px;" src="./second-jbcaf-logo.png" alt="">  
+        <canvas id="canvas" height="500" width="500"></canvas>
+        <div id="OpenerContent">
+            <div id="leftOpenerCont">
+                <div class="OpenerName openerItem"><img class="logos" src="./j-stylized-white.png" alt="">acob</div>
+                <div class="OpenerName openerItem"><img class="logos" src="./c-stylized-white.png" alt="">afiero</div>
+            </div>
+            <div id="rightOpenerCont">
+                <div class="occupationInfo toggleMargin">Web</div>
+                <div class="occupationInfo">Developer</div>
+            </div>
+        </div> 
     </div>
-    <div id="navBar">
-        <img id="logo" src="second-jbcaf-logo.png" alt="">
-        <div id="limitContainer">
-            <div id="menuBar"></div>
-            <div id="actualMenu"></div>
-            <canvas id="menuCanvas"></canvas>
-            <div id="menuContent">
-                <div class="menuElement" style="grid-row: 2;">About</div>
-                <div class="menuElement" style="grid-row: 3;">Tools</div>
-                <div class="menuElement" style="grid-row: 4;">Work</div>
-                <div class="menuElement" style="grid-row: 5;">Contact</div>
+    <div id="navBarContainter">
+        <div id="navBar">
+            <img id="logo" src="second-jbcaf-logo.png" alt="">
+            <div id="limitContainer">
+                <div id="menuBar"></div>
+                <div id="actualMenu"></div>
+                <canvas id="menuCanvas" height="2160" width="4096"></canvas>
+                <div id="menuContent">
+                    <div class="menuElement" style="grid-row: 2;">About</div>
+                    <div class="menuElement" style="grid-row: 3;">Tools</div>
+                    <div class="menuElement" style="grid-row: 4;">Work</div>
+                    <div class="menuElement" style="grid-row: 5;">Contact</div>
+                </div>
             </div>
         </div>
     </div>
@@ -51,7 +62,10 @@
                     <div id="containerBackground">
                         <div id="informationArea">
                             <div id="exitToolsInfo"><div id="xStyleCloseTools">+</div></div>
-                            <div id="toolsInfoTitle"><p id="infoTitle" style="margin: 0 0 -10px 0; padding: 0;"></p></div> <div id="toolsInfoCategor"><p id="infoCategory" style="margin: 0 0 0 0; padding: 0;"></p></div>
+                            <div id="toolsTopBarTitleAndCategory">
+                                <div id="toolsInfoTitle"><p id="infoTitle" style="margin: 0 0 -10px 0; padding: 0;"></p></div>
+                                <div id="toolsInfoCategor"><p id="infoCategory" style="margin: 0 0 0 0; padding: 0;"></p></div>
+                            </div>
                             <div id="infoContentArea"><p id="infoContent"></p></div>
                             <div id="toolsInfoProf"><p id="profInfo"></p></div>
                         </div>
