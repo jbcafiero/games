@@ -1,7 +1,7 @@
 body {
     background: #1f1f1f;
     overflow-x: hidden;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 #openingContainter {
@@ -10,6 +10,57 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#OpenerContent {
+    display: flex;
+    justify-content: center;
+
+}
+
+#leftOpenerCont {
+    float: left;
+    width: 58vw;
+    height: 30vw;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2vw;
+}
+
+
+#rightOpenerCont {
+    float: right;
+    width: 38vw;
+    height: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 2vw;
+
+}
+
+.occupationInfo {
+    height: 5vw; font-size: 5vw; color: white;
+
+}
+
+.toggleMargin{
+    margin-top: 18vw;
+}
+
+.logos {
+    width: 13vw;
+    height: 13vw;
+    float: left;
+}
+
+.openerItem{
+    height: 15vw;
+}
+
+.OpenerName {
+    font-size: 14vw;
+    color: white;
 }
 
 #about {
@@ -47,7 +98,7 @@ background: #ffb7b7; /* Gecko Browsers */
 }
 
 #menuBar {
-    position: relative;
+    position: absolute;
     z-index: 100;
     top: 25;
     right: 35;
@@ -56,6 +107,7 @@ background: #ffb7b7; /* Gecko Browsers */
     border-radius: 50%;
     /* background: blue; */
     transform :scale(1);
+    pointer-events: all;
     cursor: pointer;
     transition: background 0.5s, transform 0.2s;
 }
@@ -65,23 +117,33 @@ background: #ffb7b7; /* Gecko Browsers */
     height: 50vh;
     position: absolute;
     right: 10;
+    pointer-events: none;
     /* background: grey; */
 }
 
 #actualMenu {
     position: absolute;
+    pointer-events: none;
     background: black;
     width: 1px;
     height: 1px;
-    border-radius: 50%;
     z-index: 97;
-    top: 50;
-    right: 60;
-    transition: width 0.3s, height 0.3s, border-radius 0.12s, top 0.4s, right, 0.4s;
+    top: 0;
+    right: 10;
+    
+}
+
+.closeMenu {
+    animation: openMenu 0.3s ease 0s forwards
+}
+
+.openMenu {
+    animation: closeMenu 0.3s ease 0s forwards;
 }
 
 #menuCanvas {
     position: absolute;
+    pointer-events: none;
     top: 0;
     right: 10;
     height: 50vh;
@@ -91,17 +153,48 @@ background: #ffb7b7; /* Gecko Browsers */
 
 #menuContent {
     position: absolute;
-    top: -15vh;
-    right: -15vh;
+    pointer-events: none;
+    top: 0;
+    right: 0;
     height: 50vh;
     width: 50vh;
     z-index: 99;
     display: grid;
+    transform: scale(1);
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    transform: scale(0.01);
     opacity: 0;
+    
+}
 
-    transition: transform 0.15s, opacity 0.8s, top 0.38s, right 0.38s;
+.openMenuContents {
+    animation: openMenuContent 0.3s ease 0s forwards
+}
+
+.closeMenuContents {
+    animation: closeMenuContent 0.3s ease 0s forwards
+}
+
+@keyframes openMenuContent {
+    0% {opacity: 0; transform: translate(150px, -150px) scale(0.1);}
+    100% {opacity: 1;transform: translate(0, 0) scale(1);}
+}
+
+@keyframes closeMenuContent {
+    0% {opacity: 1; transform: translate(0, 0) scale(1);}
+    100% {opacity: 0; transform: translate(150px, -150px) scale(0.1);}
+}
+
+@keyframes openMenu {
+    /* 0% {opacity: 1; border-radius: 50% 20% 50% 50%; width: 1px; height: 1px; transform: translate(-20px, 20px)}
+    75% {opacity: 1; border-radius: 30% 5% 30% 30%; width: 50vh; height: 50vh;  transform: translate(0, 0)}
+    100% {border-radius: 1.5%; width: 50vh; height: 50vh;} */
+    0% {border-radius: 50% 35% 50% 50%; width: 1px; height: 1px; transform: translate(-45px, 45px)}
+    100% {border-radius: 1.5%; width: 50vh; height: 50vh;}
+}
+
+@keyframes closeMenu {
+    0% {border-radius: 1.5%; width: 50vh; height: 50vh;}
+    100% {border-radius: 50% 40% 50% 50%; width: 1px; height: 1px; transform: translate(-45px, 45px)}
 }
 
 .menuElement {
@@ -141,8 +234,14 @@ background: #ffb7b7; /* Gecko Browsers */
     z-index: 91;
 }
 
-#navBar {
+#navBarContainter {
     position: relative;
+    width: 100vw;
+    height: 100px;
+}
+
+#navBar {
+    position: absolute;
     top: 0;
     width: 100vw;
     height: 100px;
@@ -150,16 +249,16 @@ background: #ffb7b7; /* Gecko Browsers */
 }
 
 @keyframes topIn {
-    from {transform: translateY(55vh)}
-    to {transform: translateY(0)}
+    from {transform: translateY(55vh); opacity: 0;}
+    to {transform: translateY(0); opacity: 0.65;}
 }
 @keyframes leftIn {
-    from {transform: translateX(-55vw)}
-    to {transform: translateX(0)}
+    from {transform: translateX(-55vw); opacity: 0;}
+    to {transform: translateX(0); opacity: 0.65;}
 }
 @keyframes rightIn {
-    from {transform: translateX(55vw)}
-    to {transform: translateX(0)}
+    from {transform: translateX(55vw); opacity: 0;}
+    to {transform: translateX(0); opacity: 0.65;}
 }
 
 @keyframes fadeInMainText {
@@ -276,7 +375,7 @@ background: #ffb7b7; /* Gecko Browsers */
     height: 100%;
 }
 .toolsElement{
-    background: white;
+    background: #1a1a1a;;
     width: 25%;
     height: 50%;
     float: left;
@@ -297,7 +396,7 @@ background: #ffb7b7; /* Gecko Browsers */
     width: 50%;
     float: right;
     display: grid;
-    grid-template-columns: 38% 38% 24%;
+    grid-template-columns: 38% 1fr 24%;
     grid-template-rows: 30% 40% 30%;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
@@ -389,22 +488,29 @@ background: #ffb7b7; /* Gecko Browsers */
     align-items: flex-end;
 }
 
-#toolsInfoTitle {
-    grid-column: 1 / span 1;
+#toolsTopBarTitleAndCategory {
+    grid-column: 1 / span 2;
     grid-row: 1 / span 1;
-    height: 75px;
+}
+
+#toolsInfoTitle {
+
+    height: 100%;
+    width: auto;
     align-self: end;
-    font-size: 65px;
+    font-size: 5.25vw;
     font-weight: bold;
     display: flex;
     align-items: flex-end;
+    float: left;
 }
 
 #toolsInfoCategor {
-    grid-column: 2 / span 1;
-    grid-row: 1 / span 1;
-    height: 75px;
-    font-size: 25px;
+
+    height: 100%;
+    width: auto;
+    text-align: right;
+    font-size: 1.5vw;
     font-weight: lighter;
     align-self: end;
     display: flex;
@@ -413,10 +519,10 @@ background: #ffb7b7; /* Gecko Browsers */
 }
 
 #infoContentArea {
-    text-align: start;
+    text-align: left;
     align-self: center;
     justify-self: start;
-    font-size: 20px;
+    font-size: 1.5vw;
     font-weight: normal;
     grid-column: 1 / span 2;
     grid-row: 2 / span 1;
@@ -426,11 +532,12 @@ background: #ffb7b7; /* Gecko Browsers */
     grid-column: 1 / span 2;
     grid-row: 3 / span 1;
     height: 50px;
-    font-size: 35px;
+    font-size: 3vw;
     font-weight: normal;
     justify-self: start;
     align-self: start;
 }
+
 
 @keyframes backgroundFadeIn {
     from {z-index: 10; opacity: 0;}
@@ -542,3 +649,57 @@ textarea {
 ::-ms-input-placeholder { /* Microsoft Edge */
     color: white;
 }
+
+@media only screen and (max-width: 600px) {
+    #OpenerContent {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #leftOpenerCont {
+        height: 45vw;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #rightOpenerCont {
+        height: 45vw;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    
+    }
+
+    .occupationInfo {
+        height: 20vw;
+        font-size: 10vw;
+        color: white;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10vw;
+    }
+    
+
+    .toggleMargin{
+        margin-top: 30vw;
+    }
+
+    .logos {
+        width: 20vw;
+        height: 20vw;
+        float: left;
+    }
+    
+    .openerItem{
+        height: 45vw;
+        margin-bottom: 7.5vw;
+    }
+    
+    .OpenerName {
+        font-size: 25vw;
+        color: white;
+    }
+  }
