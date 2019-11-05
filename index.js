@@ -33,8 +33,9 @@
 
     //Declaration of Dot Class
     class Dot {
-        constructor(){
+        constructor(idOfThree){
             Dot.quantity += 1;
+            this.id = idOfThree;
             this.velocityX = 0;
             this.velocityY = 0;
             this.radius = 2.5
@@ -72,12 +73,6 @@
                     this.velocityX = (futureXPosition-this.positionX)
                     this.velocityY = (futureYPosition-this.positionY)
                 }
-                if (this.turnRadius == 10) {
-                    this.variableColor = this.variableColor<=0 ? 0 : this.variableColor-10;
-                }
-                else {
-                    this.variableColor = this.variableColor>=255 ? 255 : this.variableColor+10;
-                }
             }
             else {
                 if(this.positionX+Dot.offsetX >=menuCanvas.width-this.radius || this.positionX+Dot.offsetX <=this.radius) {this.velocityX*=-1}
@@ -85,7 +80,10 @@
             }
             this.positionX += this.velocityX;
             this.positionY += this.velocityY;
-            this.color = `rgb(255, ${this.variableColor}, ${this.variableColor})`
+            if(this.id == 0) {this.color = `red`}
+            else if(this.id == 1) {this.color = `blue`}
+            else if(this.id == 2) {this.color = `green`}
+
             ////////
         }
         render() {
@@ -104,7 +102,7 @@
     Dot.offsetY = 50;
     Dot.quantity = 0;
     for (let i = 0; i < 30; i ++) {
-        dots[i] = new Dot();
+        dots[i] = new Dot(i%3);
     }
 
 
@@ -112,41 +110,33 @@
     //All of the toggle actions when menu bar is clicked
     menu.addEventListener("click",() => {
         if (toggleMenu == true) {
-            menuContainer.style.borderRadius = "50%";
-            menuContainer.style.top = "50px";
-            menuContainer.style.right = "60px";
 
+            menuContainer.classList.remove("closeMenu");
+            menuContainer.classList.add("openMenu");
             menu.style.transform = "scale(1)";
-            menuContainer.style.width = "1px";
-            menuContainer.style.height = "1px";
+
             Dot.isFree = false;
             toggleMenu = false;
 
-            menuContents.style.transform = "scale(0.01)";
-            menuContents.style.opacity = "0";
-            menuContents.style.right = "-15vh";
-            menuContents.style.top = "-15vh";
+            menuContents.classList.remove("openMenuContents");
+            menuContents.classList.add("closeMenuContents");
+
         }
         else {
-            menuContainer.style.borderRadius = "1.5%";
-            menuContainer.style.top = "0";
-            menuContainer.style.right = "10";
-            menuContainer.style.width = "100%";
-            menuContainer.style.height = "100%";
 
+            menuContainer.classList.remove("openMenu");
+            menuContainer.classList.add("closeMenu");
             menu.style.transform = "scale(0.5)"
             Dot.isFree = true;
             toggleMenu = true;
 
-            menuContents.style.transform = "scale(1)";
-            menuContents.style.opacity = "1";
-            menuContents.style.right = "0";
-            menuContents.style.top = "0";
+            menuContents.classList.remove("closeMenuContents");
+            menuContents.classList.add("openMenuContents");
 
             for (let i = 0; i < Dot.quantity; i ++) {
                 if(Dot.isFree == true && i%2 != 0) {
-                    dots[i].velocityX *= 2.2;
-                    dots[i].velocityY *= 2.2;
+                    dots[i].velocityX *= 1.2;
+                    dots[i].velocityY *= 1.2;
                 }
             }
         }
@@ -319,7 +309,7 @@ function triColorText(content, divToInsertIn) {
             'width: 100vw;'+
             'z-index: 3;'+
             'text-align: center;'+
-            'animation: topIn 2s ease 0s;'+
+            'animation: topIn 1.35s ease 0s;'+
             'animation-fill-mode: both;">' +
             content+
             '</div>'+
@@ -330,7 +320,7 @@ function triColorText(content, divToInsertIn) {
             'width: 100vw;'+
             'z-index: 2;'+
             'text-align: center;'+
-            'animation: leftIn 2s ease 0s;'+
+            'animation: leftIn 1.35s ease 0s;'+
             'animation-fill-mode: both;'+
             '">'+
             content+
@@ -342,7 +332,7 @@ function triColorText(content, divToInsertIn) {
             'width: 100vw;'+
             'z-index: 1;'+
             'text-align: center;'+
-            'animation: rightIn 2s ease 0s;'+
+            'animation: rightIn 1.35s ease 0s;'+
             'animation-fill-mode: both;'+
             '">'+
             content+
@@ -355,7 +345,7 @@ function triColorText(content, divToInsertIn) {
             'z-index: 4;'+
             'opacity: 0;'+
             'text-align: center;'+
-            'animation: fadeInMainText 0.45s ease 1.8s;'+
+            'animation: fadeInMainText 0.45s ease 1.1s;'+
             'animation-fill-mode: forwards;'+
             '">'+
             content+
@@ -459,10 +449,10 @@ function triColorText(content, divToInsertIn) {
         Dot.offsetY = 50;
 
         for (let i = 0; i < Dot.quantity; i ++) {
-            if(Dot.isFree == true && i%2 != 0) {
+            if(Dot.isFree == true && dots[i].id != 0) {
                 dots[i].isFree = true;
             }
-            else if(Dot.isFree == true && i%2 == 0) {
+            else if(Dot.isFree == true && dots[i].id == 0) {
                 dots[i].turnRadius = 10;
             }
             else {
