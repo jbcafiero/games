@@ -1,0 +1,352 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>About sketch</title>
+    <style>
+        body{
+            background: #2a2a2a;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #allEncumpasingCont {
+            height: 50vw;
+            width: 100vw;
+        }
+        #toolsContainer{
+            position: relative;
+            background: white;
+            width: 100%;
+            height: 100%;
+        }
+        .toolsElement{
+            background: white;
+            width: 25%;
+            height: 50%;
+            float: left;
+
+        }
+
+        #containerBackground {
+            position: absolute;
+            background: white;
+            z-index: -1;
+            opacity: 1;
+            height: 100%;
+            width: 100%;
+        }
+
+        #informationArea {
+            height: 100%;
+            width: 50%;
+            float: right;
+            display: grid;
+            grid-template-columns: 38% 38% 24%;
+            grid-template-rows: 30% 40% 30%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            color: rgb(61, 61, 61);
+        }
+
+
+        .gifs {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+            background-size: 85% 85%;
+            background-repeat: no-repeat;
+            pointer-events: auto;
+            background-color: rgba(255, 255, 255, 0);
+            color: rgba(255, 255, 255, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5vw;
+            transition: background-size 0.5s, background-color 0.5s, color 0.5s, left 1.99s, top 1.99s;
+        }
+
+        .gifs:hover {
+            color: white;
+            background-size: 100% 100%;
+        }
+
+        .innerGifs {
+            text-align: center;
+            background: rgba(50, 50, 50, 0);
+            margin: 0;
+            padding: 15px;
+            width: 100%;
+
+            -webkit-user-select: none; /* Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+            transition: background 0.5s;
+        }
+
+        .gifs:hover > .innerGifs {
+            background: rgba(50, 50, 50, 0.075);
+        }
+
+        .fillArea {
+            color: rgba(255, 255, 255, 0) !important; background-size: 90% 90% !important; background-color: rgba(255, 255, 255, 0) !important;
+            animation: fillSpace 2s ease 0s both;
+        }
+
+        .dontMakeGreyBar {
+            background: rgba(50, 50, 50, 0) !important;
+        }
+
+        .returnToSpace {
+            animation: returnToSpace 2s ease 0s both;
+        }
+
+        .fadeBackgroundIn {
+            animation: backgroundFadeIn 1.2s ease 0s both;
+        }
+
+        .fadeBackgroundOut {
+            animation: backgroundFadeOut 1.2s ease 0s both;
+        }
+        
+        #xStyleCloseTools {
+            transform: rotate(45deg);
+            margin-right: 30px;
+            margin-top: 20px;
+            cursor: pointer;
+            -webkit-user-select: none; /* Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+
+        #exitToolsInfo {
+            grid-column: 3 / span 1;
+            grid-row: 1 / span 1;
+            height: 75px;
+            align-self: start;
+            justify-self: end;
+            font-size: 65px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        #toolsInfoTitle {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+            height: 75px;
+            align-self: end;
+            font-size: 65px;
+            font-weight: bold;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        #toolsInfoCategor {
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 1;
+            height: 75px;
+            font-size: 25px;
+            font-weight: lighter;
+            align-self: end;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
+        #infoContentArea {
+            text-align: start;
+            align-self: center;
+            justify-self: start;
+            font-size: 20px;
+            font-weight: normal;
+            grid-column: 1 / span 2;
+            grid-row: 2 / span 1;
+        }
+
+        #toolsInfoProf {
+            grid-column: 1 / span 2;
+            grid-row: 3 / span 1;
+            height: 50px;
+            font-size: 35px;
+            font-weight: normal;
+            justify-self: start;
+            align-self: start;
+        }
+
+        @keyframes backgroundFadeIn {
+            from {z-index: 10; opacity: 0;}
+            to {z-index: 10; opacity: 1;}
+        }
+        @keyframes backgroundFadeOut {
+            0% {z-index: 10; opacity: 1;}
+            99.9% {z-index: 10; opacity: 0;}
+            100% {z-index: -1; opacity: 0;}
+        }
+        @keyframes fillSpace {
+            from {position: absolute; z-index: 20; width: 25%; height: 50%;}
+            to {position: absolute; z-index: 20; width: 50%; height: 100%; z-index: 20; left: 0%; top: 0%;}
+        }
+        @keyframes returnToSpace {
+            0% {position: absolute; z-index: 20; width: 50%; height: 100%; z-index: 20; left: 0%; top: 0%;}
+            99.9% {position: absolute; z-index: 20; width: 25%; height: 50%;}
+            100% {position: static; height: 100%; width: 100%;}
+        }
+
+        #gifElem1 {background-image: url(./gifs/blender-logo-compressed.gif);}
+        #gifElem1:hover {background-color: rgb(255, 241, 227);}
+        #gifElem2 {background-image: url(./gifs/compressed-version-html.gif);}
+        #gifElem2:hover {background-color: rgb(255, 232, 221);}
+        #gifElem3 {background-image: url(./gifs/react-logo-compressed.gif);}
+        #gifElem3:hover {background-color: rgb(228, 253, 255);}
+        #gifElem4 {background-image: url(./gifs/nodejs-logo-compressed.gif);}
+        #gifElem4:hover {background-color: rgb(234, 255, 228);}
+        #gifElem5 {background-image: url(./gifs/ai-logo-compressed.gif);}
+        #gifElem5:hover {background-color: rgb(240, 231, 227);}
+        #gifElem6 {background-image: url(./gifs/css-gif-compressed.gif);}
+        #gifElem6:hover {background-color: rgb(233, 241, 255);}
+        #gifElem7 {background-image: url(./gifs/express-logo-compressed.gif);}
+        #gifElem7:hover {background-color: rgb(240, 240, 240);}
+        #gifElem8 {background-image: url(./gifs/js-logo-compressed.gif);}
+        #gifElem8:hover {background-color: rgb(255, 253, 232);}
+
+
+    </style>
+</head>
+<body>
+    <div id="allEncumpasingCont">
+        <div id="toolsContainer" class="">
+            <div id="containerBackground">
+                <div id="informationArea">
+                    <div id="exitToolsInfo"><div id="xStyleCloseTools">+</div></div>
+                    <div id="toolsInfoTitle"><p id="infoTitle" style="margin: 0 0 -10px 0; padding: 0;"></p></div> <div id="toolsInfoCategor"><p id="infoCategory" style="margin: 0 0 0 0; padding: 0;"></p></div>
+                    <div id="infoContentArea"><p id="infoContent"></p></div>
+                    <div id="toolsInfoProf"><p id="profInfo"></p></div>
+                </div>
+            </div>
+            <div class="toolsElement"><div id="gifElem1" class="gifs"><p id="gifTitle1" class="innerGifs">Blender</p></div></div>
+            <div class="toolsElement"><div id="gifElem2" class="gifs"><p id="gifTitle2" class="innerGifs">HTML</p></div></div>
+            <div class="toolsElement"><div id="gifElem3" class="gifs"><p id="gifTitle3" class="innerGifs">React JS</p></div></div>
+            <div class="toolsElement"><div id="gifElem4" class="gifs"><p id="gifTitle4" class="innerGifs">Node JS</p></div></div>
+            <div class="toolsElement"><div id="gifElem5" class="gifs"><p id="gifTitle5" class="innerGifs">Adobe Illustrator</p></div></div>
+            <div class="toolsElement"><div id="gifElem6" class="gifs"><p id="gifTitle6" class="innerGifs">CSS</p></div></div>
+            <div class="toolsElement"><div id="gifElem7" class="gifs"></div></div>
+            <div class="toolsElement"><div id="gifElem8" class="gifs"><p id="gifTitle7" class="innerGifs">JavaScript</p></div></div>
+        </div>
+    </div>
+    <script>
+
+        var CURRENT_TOOL_BEING_LOOKED_AT;
+
+        let backgroundOfCont = document.querySelector('#containerBackground');
+        let infoCont = document.querySelector('#infoContent');
+        var BACKGROUND_STATE = false;
+        var elemIsOpen = false;
+
+        let infoTitle = document.querySelector("#infoTitle");
+        let infoCategory = document.querySelector("#infoCategory");
+        let infoProficiency = document.querySelector("#profInfo");
+        let exitTools = document.querySelector("#xStyleCloseTools");
+        
+
+        let allGifTitles = document.getElementsByClassName('innerGifs');
+
+        function takeActionOnBackground (decide, color) {
+            if (decide) {
+                BACKGROUND_STATE = false;   
+                backgroundOfCont.classList.remove("fadeBackgroundIn");
+                backgroundOfCont.classList.add("fadeBackgroundOut");
+            }
+            else {
+                BACKGROUND_STATE = true;
+                backgroundOfCont.style.background = color;
+                backgroundOfCont.classList.remove("fadeBackgroundOut");
+                backgroundOfCont.classList.add("fadeBackgroundIn");
+            }
+        }
+        function takeActionOnGifs(e, topDist, leftDist, text, color, proficiency, title, category) {
+            
+            if(!elemIsOpen){
+                CURRENT_TOOL_BEING_LOOKED_AT = {object: e, topValue: topDist, leftValue: leftDist};
+                for (let i=0; i < 7; i++) {
+                    document.getElementById(`gifTitle${i+1}`).classList.add("dontMakeGreyBar");
+                }
+            e.classList.remove("returnToSpace"); infoCont.innerHTML = text ; elemIsOpen = true; e.style.top = `${topDist}%`; e.style.left = `${leftDist}%`; e.classList.add("fillArea");
+            takeActionOnBackground(BACKGROUND_STATE, color);
+            infoTitle.innerHTML = title;
+            infoCategory.innerHTML = category;
+            infoProficiency.innerHTML = `Proficiency: ${proficiency}%`;
+            }
+
+        }
+
+        let gifElem1 = document.querySelector('#gifElem1');
+        gifElem1.addEventListener("click", () => {takeActionOnGifs(gifElem1, 0*50, 0*25, aboutData.blender.text, 'rgb(255, 241, 227)', aboutData.blender.proficiency, "Blender", "Design / Asset Creation");});
+        let gifElem2 = document.querySelector('#gifElem2');
+        gifElem2.addEventListener("click", () => {takeActionOnGifs(gifElem2, 0*50, 1*25, aboutData.html.text, 'rgb(255, 232, 221)', aboutData.html.proficiency, "HTML", "Front-End Devlopment");});
+        let gifElem3 = document.querySelector('#gifElem3');
+        gifElem3.addEventListener("click", () => {takeActionOnGifs(gifElem3, 0*50, 2*25, aboutData.react.text, 'rgb(228, 253, 255)', aboutData.react.proficiency, "React JS", "Front-End Devlopment");});
+        let gifElem4 = document.querySelector('#gifElem4');
+        gifElem4.addEventListener("click", () => {takeActionOnGifs(gifElem4, 0*50, 3*25, aboutData.node.text, 'rgb(234, 255, 228)', aboutData.node.proficiency, "Node JS", "Front-End Devlopment / Back-End Development");});
+        let gifElem5 = document.querySelector('#gifElem5');
+        gifElem5.addEventListener("click", () => {takeActionOnGifs(gifElem5, 1*50, 0*25, aboutData.ai.text, 'rgb(240, 231, 227)', aboutData.ai.proficiency, "Adobe Illustrator", "Design/Asset Creation");});
+        let gifElem6 = document.querySelector('#gifElem6');
+        gifElem6.addEventListener("click", () => {takeActionOnGifs(gifElem6, 1*50, 1*25, aboutData.css.text, 'rgb(233, 241, 255)', aboutData.css.proficiency, "CSS", "Front-End Devlopment");});
+        let gifElem7 = document.querySelector('#gifElem7');
+        gifElem7.addEventListener("click", () => {takeActionOnGifs(gifElem7, 1*50, 2*25, aboutData.express.text, 'rgb(240, 240, 240)', aboutData.express.proficiency, "Express JS", "Back-End Development");});
+        let gifElem8 = document.querySelector('#gifElem8');
+        gifElem8.addEventListener("click", () => {takeActionOnGifs(gifElem8, 1*50, 3*25, aboutData.javascript.text, 'rgb(255, 253, 232)', aboutData.javascript.proficiency, "JavaScript", "Front-End Devlopment / Back-End Development");});
+
+        exitTools.addEventListener("click", () => {
+            if(elemIsOpen) {
+                for (let i=0; i < 7; i++) {
+                    document.getElementById(`gifTitle${i+1}`).classList.remove("dontMakeGreyBar");
+                }
+                CURRENT_TOOL_BEING_LOOKED_AT.object.classList.remove("fillArea"); elemIsOpen = false; CURRENT_TOOL_BEING_LOOKED_AT.object.classList.add("returnToSpace"); CURRENT_TOOL_BEING_LOOKED_AT.object.style.top = `${CURRENT_TOOL_BEING_LOOKED_AT.topValue}%`; CURRENT_TOOL_BEING_LOOKED_AT.object.style.left = `${CURRENT_TOOL_BEING_LOOKED_AT.leftValue}%`;
+                takeActionOnBackground(BACKGROUND_STATE, "white");
+            }
+        });
+
+        let aboutData = {
+            blender: {
+                text: "blender is the tool that I use for 3d asset creation, and is the tool that was used to create the asset you are currently looking at. This is more filler text that looks like normal text, and is trying to extend the length of this info area as long as possible",
+                proficiency: 58
+            },
+            html: {
+                text: "This is Html TExt and it is plentiful and it is unique",
+                proficiency: 79
+            },
+            react: {
+                text: "React text, react is a good tool, I use it often",
+                proficiency: 81
+            },
+            node: {
+                text: "Node is used in both front end and back end development, and it is a good time",
+                proficiency: 71
+            },
+            ai: {
+                text: "adobe illustrator is used on the design end and is useful",
+                proficiency: 64
+            },
+            css: {
+                text: "css is a great tool, and is capable of taking over many jobs from javascript",
+                proficiency: 87
+            },
+            express: {
+                text: "express is a backend framework that works off of nodejs and is my primary tool for backend development",
+                proficiency: 56
+            },
+            javascript: {
+                text: "javascript is my absolute favorite programming language and it is useful for all things web",
+                proficiency: 88
+            }
+        }
+
+    </script>
+</body>
+</html>
